@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Test" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAoEIAAAAIAAAgCAAAAAAAAAAEAABAAAAECIAAAAA=</HashCode>
+      <FileName>Test.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Question" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAgAAAAAAAAAAAAEAAAAAAIAAAA=</HashCode>
+      <FileName>Question.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Q_OneAns" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAIAAgAAAAAAQAgAAABQAAAAAEABAAAAAAA=</HashCode>
+      <FileName>Question.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestNumberAns" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAACAAAAAAAIAAAgAAAAAAAAAAAABAIAAAAAAAAAAAA=</HashCode>
+      <FileName>ProfTest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exc" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAABABAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exc_input" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Exc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
