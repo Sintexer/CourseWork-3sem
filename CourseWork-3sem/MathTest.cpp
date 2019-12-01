@@ -8,19 +8,34 @@ void MathTest::AddUserAns(size_t ans)
 
 void MathTest::start()
 {
-	cout << name << "\n" << endl;
-	cout << test_def << endl;
+	wcout << name << "\n" << endl;
+	wcout << test_def << endl;
 	system("pause");
 	system("cls");
 	size_t answer;
 	typename std::list<Q_OneAns>::iterator it = questions.begin();
-	for (it; it != questions.end(); ++it) {
-		static_cast<Q_OneAns>(*it).ask();
-		cout << "\nВведите ваш ответ: \n" << endl;
-		inputSafe(cin, answer, 1, dynamic_cast<Q_OneAns&>(*it).getAnswersSize());
-		user_answers.push_back(answer);
+	user_answers.clear();
+	while(it!=questions.end()){
 		system("cls");
+		static_cast<Q_OneAns>(*it).ask();
+		cout << "0: Назад" << endl;
+		cout << "\nВведите ваш ответ: \n" << endl;
+		inputSafe(cin, answer, 0, dynamic_cast<Q_OneAns&>(*it).getAnswersSize());
+		if (answer == 0) {
+			if (it == questions.begin())
+				return;
+			if (!user_answers.size())
+				user_answers.pop_back();
+			--it;
+
+			continue;
+		}
+		user_answers.push_back(answer);
+		
+		++it;
 	}
+	system("cls");
+	check();
 }
 
 void MathTest::check()
@@ -28,6 +43,7 @@ void MathTest::check()
 	double correct{};
 	std::list<Q_OneAns>::iterator qstit = questions.begin();
 	size_t vc{};
+	if(questions.size())
 	for (qstit, vc; qstit != questions.end(); ++qstit, ++vc) {
 		if (static_cast<Q_OneAns&>(*qstit).getCorrectAns() == user_answers[vc])
 			++correct;
@@ -55,10 +71,13 @@ bool MathTest::writeFile(TextFile& txt)
 
 bool MathTest::readFile(TextFile& txt)
 {
+	setlocale(LC_ALL, "Rus");
+	while (txt.fin.peek() == '\n')
+		txt.fin.get();
 	if (txt.fin.eof())
 		return false;
-	txt.fin >> name;
-	txt.fin >> test_def;
+	getline(txt.fin, name);
+	getline(txt.fin, test_def);
 	size_t size{};
 	txt.fin >> size;
 	questions.clear();
@@ -71,7 +90,7 @@ bool MathTest::readFile(TextFile& txt)
 	return true;
 }
 
-string MathTest::getPath()
+wstring MathTest::getPath()
 {
 	return path;
 }

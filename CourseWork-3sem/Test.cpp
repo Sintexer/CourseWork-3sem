@@ -1,11 +1,11 @@
 #include "Test.h"
 
-void Test::setName(string test_name)
+void Test::setName(wstring test_name)
 {
 	name = test_name;
 }
 
-void Test::setDefinition(string definition)
+void Test::setDefinition(wstring definition)
 {
 	test_def = definition;
 }
@@ -36,17 +36,17 @@ bool Test::operator!=(Test& another_test)
 	return !(*this == another_test);
 }
 
-string Test::getName()
+wstring Test::getName()
 {
 	return name;
 }
 
-string Test::getDefinition()
+wstring Test::getDefinition()
 {
 	return test_def;
 }
 
-std::ostream& operator<<(std::ostream& out, Test& test)
+std::wostream& operator<<(std::wostream& out, Test& test)
 {
 	out << test.getName() << endl << test.getDefinition() << endl;
 	return out;

@@ -8,7 +8,7 @@ class MathTest :
 
 protected:
 	std::vector<size_t> user_answers;
-	string path{"MathTests.txt"};
+	std::wstring path{L"MathTests.txt"};
 public:
 
 	MathTest() : TestRating() {};
@@ -22,5 +22,5 @@ public:
 
 	bool writeFile(TextFile& txt);
 	bool readFile(TextFile& txt);
-	string getPath();
+	wstring getPath();
 };

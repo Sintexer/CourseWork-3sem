@@ -1,15 +1,19 @@
 #pragma once
 #include "MostCommonHeaders.h"
 #include <fstream>
+#include <locale>
+#include <codecvt>
 
 class File
 {
+	
 public:
-	string file_path{};
-	std::ofstream fout{};
-	std::ifstream fin{};
+
+	wstring file_path{};
+	std::wofstream fout{};
+	std::wifstream fin{};
 //public:
-	File(string path) : file_path(std::move(path)) {}
+	File(wstring path) : file_path(std::move(path)) {}
 };
 
 template<typename Ty>
@@ -17,7 +21,7 @@ class BinaryFile :
 	public File
 {
 public:
-	BinaryFile(string path) : File(path)
+	BinaryFile(wstring path) : File(path)
 	{
 		fout.open(path, std::ios::binary);
 		fin.open(path, std::ios::binary);
@@ -30,7 +34,7 @@ class TextFile :
 	public File
 {
 public:
-	TextFile(string path) : File(path) {}
+	TextFile(wstring path) : File(path) {}
 	~TextFile()
 	{
 		fout.close();
@@ -55,6 +59,7 @@ public:
 inline bool TextFile::open_out()
 {
 	fout.open(file_path,std::ios::binary);
+	fout.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t, 0x10ffffUL, std::codecvt_mode::consume_header>));
 	return fout.is_open();
 }
 
@@ -62,6 +67,8 @@ inline bool TextFile::open_out()
 inline bool TextFile::open_in()
 {
 	fin.open(file_path,std::ios::binary);
+	fin.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t, 0x10ffffUL, std::codecvt_mode::consume_header>));
+
 	return fin.is_open();
 }
 

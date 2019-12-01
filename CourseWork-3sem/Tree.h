@@ -238,7 +238,7 @@ void Tree<T>::printTree(Tree::Node<T> *current, int level) {
     {
         printTree(current->left, level + 1);
         /*for (int i = 0; i < level; i++) std::cout << "    ";*/
-        std::cout << current->value << std::endl;// << " ";
+        std::wcout << current->value << std::endl;// << " ";
         printTree(current->right, level + 1);
     }
 }

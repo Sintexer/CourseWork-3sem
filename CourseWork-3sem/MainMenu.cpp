@@ -61,9 +61,8 @@ bool MainMenu::ratingTestMenu()
 		case 1: {
 			Interface<MathTest> inter;
 			inter.init();
-			inter.show();
-			inter.chooseTest();
-			system("pause");
+			if (!inter.chooseTest())
+				return false;
 			break;
 		}
 		case 2:

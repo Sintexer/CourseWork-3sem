@@ -4,26 +4,20 @@
 #include "TestRating.h"
 #include "MathTest.h"
 #include "MainMenu.h"
-#include "File.h"
+#include "File.h"	
+
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-
-	TextFile vf("MathTest.txt");
-	//vf.open_out();
+	TextFile vf(L"MathTest1.txt");
 	vf.open_in();
-	/*MathTest mt1;
-	mt1.readFile(vf);
-	mt1.start();
-	mt1.check();
 
-	MathTest mt2;
-	mt2.readFile(vf);
-	mt2.start();
-	mt2.check();*/
+
 	MainMenu mm;
 	mm.init();
+	
+	
 	/*MathTest math;	
 	math.setName("Math test");
 	math.setDefinition("Common math problems and theory questions");

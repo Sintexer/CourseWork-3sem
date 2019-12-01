@@ -12,13 +12,12 @@ private:
 public:
 	void init();
 	void show();
-	void chooseTest();
+	bool chooseTest();
 };
 
 template<typename Ty>
 inline void Interface<Ty>::init()
 {
-	setlocale(LC_ALL, "Russian");
 	Ty test;
 	TextFile txt(test.getPath());
 	txt.open_in();
@@ -33,18 +32,33 @@ inline void Interface<Ty>::show()
 {
 	typename Tree<Ty>::iterator it = tr_tests.begin();
 	for (size_t i{1}; it != tr_tests.end(); ++it, ++i)
-		cout << i << ": " <<  *it << endl;
+		wcout << i << ": " <<  *it << endl;
 }
 
 template<typename Ty>
-inline void Interface<Ty>::chooseTest()
+inline bool Interface<Ty>::chooseTest()
 {
 	size_t n;
-	cout << endl <<  "Выберите номер теста: " << endl;
-	inputSafe(cin, n, 1, tr_tests.size());
-	typename Tree<Ty>::iterator it = tr_tests.begin();
-	it += n-1;
-	Ty temp = *it;
-	temp.start();
-	temp.check();
+	do {
+		system("cls");
+		cout << endl << "Выберите номер теста: " << endl;
+		show();
+		wcout << endl << tr_tests.size()+1 <<L": Назад" << endl;
+		wcout <<  L"0: Выход" << endl;
+		inputSafe(cin, n, 0, tr_tests.size()+1);
+		if (n == tr_tests.size() + 1)
+			return true;
+		switch (n) {	
+		case 0:
+			return false;
+		default:
+			system("cls");
+			typename Tree<Ty>::iterator it = tr_tests.begin();
+			it += n - 1;
+			Ty temp = *it;
+			temp.start();
+			system("pause");
+			break;
+		}
+	} while (n);
 }

@@ -6,18 +6,18 @@
 class Test
 {
 protected:
-	string name{};
+	std::wstring name{};
 	//Название теста
 
-	string test_def{};
+	std::wstring test_def{};
 	//Описание теста
 public:
 	Test() = default;
-	Test(string test_name) : name(test_name) {};
+	Test(std::wstring test_name) : name(test_name) {};
 	~Test() = default;
 
-	void setName(string test_name);
-	void setDefinition(string definition);
+	void setName(wstring test_name);
+	void setDefinition(wstring definition);
 	//void setQstAmount(size_t n);
 
 	virtual void start() = 0;
@@ -28,10 +28,10 @@ public:
 	bool operator==(Test& another_test);
 	bool operator!=(Test& another_test);
 
-	friend std::ostream& operator<<(std::ostream& out, Test& test);
+	friend std::wostream& operator<<(std::wostream& out, Test& test);
 
-	string getName();	
-	string getDefinition();
+	wstring getName();	
+	wstring getDefinition();
 	//size_t getQstQmount();
 };
 
