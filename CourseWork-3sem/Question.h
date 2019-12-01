@@ -1,5 +1,6 @@
 #pragma once
 #include "MostCommonHeaders.h"
+#include "File.h"
 #include <vector>
 
 class Question
@@ -46,6 +47,9 @@ public:
 	std::vector<string> getAnswers();
 
 	size_t getAnswersSize();
+
+	void writeFile(TextFile& txt);
+	void readFile(TextFile& txt);
 
 	void ask();
 };

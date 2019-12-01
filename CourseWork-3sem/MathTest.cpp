@@ -32,10 +32,46 @@ void MathTest::check()
 		if (static_cast<Q_OneAns&>(*qstit).getCorrectAns() == user_answers[vc])
 			++correct;
 		else {
-			cout << "Вы неправильно ответили на " << vc << "-й вопрос" << endl;
+			cout << "Вы неправильно ответили на " << vc+1 << "-й вопрос" << endl;
 			cout << "Правильный ответ номер - " << static_cast<Q_OneAns&>(*qstit).getCorrectAns() << endl << endl;
 		}
 	}
 	cout << "Ваш процент правильных ответов составляет: " << (correct / questions.size() )* 100 << endl;
 
+}
+
+bool MathTest::writeFile(TextFile& txt)
+{
+	if (txt.fout.eof())
+		return false;
+	txt.fout << name << endl;
+	txt.fout << test_def << endl;
+	txt.fout << questions.size() << endl;
+	std::list<Q_OneAns>::iterator it = questions.begin();	
+	for(it; it!=questions.end();++it)
+		dynamic_cast<Q_OneAns&>(*it).writeFile(txt);
+	return true;
+}
+
+bool MathTest::readFile(TextFile& txt)
+{
+	if (txt.fin.eof())
+		return false;
+	txt.fin >> name;
+	txt.fin >> test_def;
+	size_t size{};
+	txt.fin >> size;
+	questions.clear();
+	while (size) {
+		Q_OneAns temp{};
+		temp.readFile(txt);
+		questions.push_back(temp);
+		--size;
+	}
+	return true;
+}
+
+string MathTest::getPath()
+{
+	return path;
 }

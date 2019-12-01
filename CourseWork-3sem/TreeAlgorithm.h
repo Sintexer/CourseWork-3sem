@@ -32,7 +32,7 @@ public:
 template <typename T>
 std::list<T> search_all(Tree<T>& tr, T& obj);
 
-//std::set<std::string> getCompareParams(SpaceObject& obj);
+//	std::set<std::string> getCompareParams(SpaceObject& obj);
 
 
 template<typename T>

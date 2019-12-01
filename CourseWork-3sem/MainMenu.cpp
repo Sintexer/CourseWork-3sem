@@ -62,7 +62,7 @@ bool MainMenu::ratingTestMenu()
 			Interface<MathTest> inter;
 			inter.init();
 			inter.show();
-			inter.chooseTest(2);
+			inter.chooseTest();
 			system("pause");
 			break;
 		}
