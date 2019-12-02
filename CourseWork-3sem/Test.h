@@ -11,6 +11,8 @@ protected:
 
 	std::wstring test_def{};
 	//Описание теста
+
+	wstring answers_path{};
 public:
 	Test() = default;
 	Test(std::wstring test_name) : name(test_name) {};
@@ -18,6 +20,7 @@ public:
 
 	void setName(wstring test_name);
 	void setDefinition(wstring definition);
+	void setAnswersPath(wstring path);
 	//void setQstAmount(size_t n);
 
 	virtual void start() = 0;
@@ -32,6 +35,7 @@ public:
 
 	wstring getName();	
 	wstring getDefinition();
+	wstring getAnswersPath();
 	//size_t getQstQmount();
 };
 

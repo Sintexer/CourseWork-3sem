@@ -10,6 +10,11 @@ void Test::setDefinition(wstring definition)
 	test_def = definition;
 }
 
+void Test::setAnswersPath(wstring path)
+{
+	answers_path = path;
+}
+
 //void Test::setQstAmount(size_t n)
 //{
 //	qst_amount = n;
@@ -44,6 +49,11 @@ wstring Test::getName()
 wstring Test::getDefinition()
 {
 	return test_def;
+}
+
+wstring Test::getAnswersPath()
+{
+	return answers_path;
 }
 
 std::wostream& operator<<(std::wostream& out, Test& test)

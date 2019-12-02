@@ -15,12 +15,16 @@ public:
 	~MathTest() = default;
 
 	void AddUserAns(size_t ans);
+	void MakeTable();
 
 	virtual void start();
 	virtual void check();
+	virtual void result();
 	//virtual void continue();
 
 	bool writeFile(TextFile& txt);
+	bool putAnswers();
 	bool readFile(TextFile& txt);
+	bool getAnswers();
 	wstring getPath();
 };

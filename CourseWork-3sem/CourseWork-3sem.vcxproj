@@ -157,6 +157,7 @@
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MathTest.cpp" />
+    <ClCompile Include="OutputTable.cpp" />
     <ClCompile Include="Question.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestRating.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MathTest.h" />
     <ClInclude Include="MostCommonHeaders.h" />
+    <ClInclude Include="OutputTable.h" />
     <ClInclude Include="Question.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TestRating.h" />
