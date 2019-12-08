@@ -1,41 +1,16 @@
 #pragma once
 #include "MostCommonHeaders.h"
 #include <fstream>
-#include <locale>
-#include <codecvt>
 
 class File
-{
-	
+{// Класс файла, для настраиваемого создания и уничтожения объектов файловых потоков
+protected:
+	string file_path{};
+	std::ofstream fout{};
+	std::ifstream fin{};
 public:
-
-	wstring file_path{};
-	std::wofstream fout{};
-	std::wifstream fin{};
-//public:
-	File(wstring path) : file_path(std::move(path)) {}
-};
-
-template<typename Ty>
-class BinaryFile :
-	public File
-{
-public:
-	BinaryFile(wstring path) : File(path)
-	{
-		fout.open(path, std::ios::binary);
-		fin.open(path, std::ios::binary);
-	}
-
-};
-
-
-class TextFile :
-	public File
-{
-public:
-	TextFile(wstring path) : File(path) {}
-	~TextFile()
+	File(string path) : file_path(std::move(path)) {}
+	~File()
 	{
 		fout.close();
 		fin.close();
@@ -43,6 +18,11 @@ public:
 	bool open_out();
 	bool open_in();
 	void flush();
+	bool in() {
+		while (fin.peek() == '\n')
+			fin.get();
+		return !fin.eof();
+	}
 	void close() {
 		fin.close();
 		fout.close();
@@ -52,40 +32,60 @@ public:
 	void write(Ty obj);
 
 	template<typename Ty>
-	void read(Ty& obj);
+	void readLine(Ty obj);
+
+	template<typename Ty>
+	bool read(Ty& obj);
 };
 
 
-inline bool TextFile::open_out()
+inline bool File::open_out()
 {
-	fout.open(file_path,std::ios::binary);
-	fout.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t, 0x10ffffUL, std::codecvt_mode::consume_header>));
+	fout.open(file_path);
+	if (!fout.is_open())
+		cerr << "Невозможно открыть файл" << endl;
 	return fout.is_open();
 }
 
 
-inline bool TextFile::open_in()
+inline bool File::open_in()
 {
-	fin.open(file_path,std::ios::binary);
-	fin.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t, 0x10ffffUL, std::codecvt_mode::consume_header>));
-
+	fin.open(file_path);
+	if (!fin.is_open())
+		cerr << "Невозможно открыть файл" << endl;
 	return fin.is_open();
 }
 
 
-inline void TextFile::flush()
+inline void File::flush()
 {
 	fout.flush();
 }
 
 template<typename Ty>
-inline void TextFile::write(Ty obj)
+inline void File::write(Ty obj)
 {
-	fout.write(reinterpret_cast<char*>(&obj), sizeof(obj));
+	fout << obj <<  endl;
 }
 
 template<typename Ty>
-inline void TextFile::read(Ty& obj)
+inline void File::readLine(Ty obj)
 {
-	fin.read(reinterpret_cast<char*>(&obj), sizeof(obj));
+	while (fin.peek() == '\n')
+		fin.get();
+	if (fin.eof())
+		return false;
+	getline(fin, obj);
+	return true;
+}
+
+template<typename Ty>
+inline bool File::read(Ty& obj)
+{
+	while (fin.peek() == '\n')
+		fin.get();
+	if (fin.eof())
+		return false;
+	fin >> obj;
+	return true;
 }

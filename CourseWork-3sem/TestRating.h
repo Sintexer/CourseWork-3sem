@@ -1,11 +1,12 @@
 #pragma once
 #include "Test.h"
+
 class TestRating :
 	public Test
 {
 protected:
 	std::list<Q_OneAns> questions;
-
+	//Список вопросов типа Q_OneAns - с одним ответом
 public:
 
 	TestRating() : Test() {};

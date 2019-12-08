@@ -6,21 +6,21 @@
 class Test
 {
 protected:
-	std::wstring name{};
+	std::string name{};
 	//Название теста
 
-	std::wstring test_def{};
+	std::string test_def{};
 	//Описание теста
 
-	wstring answers_path{};
+	string answers_path{};
 public:
 	Test() = default;
-	Test(std::wstring test_name) : name(test_name) {};
+	Test(std::string test_name) : name(test_name) {};
 	~Test() = default;
 
-	void setName(wstring test_name);
-	void setDefinition(wstring definition);
-	void setAnswersPath(wstring path);
+	void setName(string test_name);
+	void setDefinition(string definition);
+	void setAnswersPath(string path);
 	//void setQstAmount(size_t n);
 
 	virtual void start() = 0;
@@ -31,11 +31,12 @@ public:
 	bool operator==(Test& another_test);
 	bool operator!=(Test& another_test);
 
-	friend std::wostream& operator<<(std::wostream& out, Test& test);
+	friend std::ostream& operator<<(std::ostream& out, Test& test);
 
-	wstring getName();	
-	wstring getDefinition();
-	wstring getAnswersPath();
+	string getName();	
+	string getDefinition();
+	string getAnswersPath();
+	void clearAns();
 	//size_t getQstQmount();
 };
 

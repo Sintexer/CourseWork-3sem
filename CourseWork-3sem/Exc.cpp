@@ -28,19 +28,17 @@ void safeStr(std::istream& in, std::string& str)
 			flag = false;
 			rewind(stdin);
 			getline(in, str);
-			if ((str[0] >= '0' && str[0] <= '9') || !in.good())
-				throw Exc_input(3, "Введенная строка должна быть словом и не начинаться с цифры");
 			for (size_t i = 1; i < str.length(); ++i)
 			{
-				if (!isalpha(str[i]) && !(str[i] >= '0' && str[i] <= '9'))
-					throw(Exc_input(5, "Inputed str must be written on English"));
+				if (!(str[i] >= 'А' && str[i] <= 'я'))
+					throw(Exc_input(5, "Введенная строка должна быть введена на русском языке"));
 			}
 			flag = false;
 		}
 		catch (Exc_input& error) {
 			flag = true;
 			unpackExc(cout, error);
-			cout << "Введите ответ" << endl;
+			cout << "Введите строку" << endl;
 			rewind(stdin);
 			in.clear();
 		}

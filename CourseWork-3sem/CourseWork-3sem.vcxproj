@@ -158,8 +158,13 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MathTest.cpp" />
     <ClCompile Include="OutputTable.cpp" />
+    <ClCompile Include="PhysTest.cpp" />
+    <ClCompile Include="ProfTest.cpp" />
     <ClCompile Include="Question.cpp" />
+    <ClCompile Include="PersonalityTest.cpp" />
+    <ClCompile Include="TeachingTest.cpp" />
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="TestDef.cpp" />
     <ClCompile Include="TestRating.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TreeAlgorithm.cpp" />
@@ -172,15 +177,16 @@
     <ClInclude Include="MathTest.h" />
     <ClInclude Include="MostCommonHeaders.h" />
     <ClInclude Include="OutputTable.h" />
+    <ClInclude Include="PhysTest.h" />
+    <ClInclude Include="ProfTest.h" />
     <ClInclude Include="Question.h" />
+    <ClInclude Include="PersonalityTest.h" />
+    <ClInclude Include="TeachingTest.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="TestDef.h" />
     <ClInclude Include="TestRating.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="TreeAlgorithm.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

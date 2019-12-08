@@ -1,24 +1,19 @@
 #include "Test.h"
 
-void Test::setName(wstring test_name)
+void Test::setName(string test_name)
 {
 	name = test_name;
 }
 
-void Test::setDefinition(wstring definition)
+void Test::setDefinition(string definition)
 {
 	test_def = definition;
 }
 
-void Test::setAnswersPath(wstring path)
+void Test::setAnswersPath(string path)
 {
 	answers_path = path;
 }
-
-//void Test::setQstAmount(size_t n)
-//{
-//	qst_amount = n;
-//}
 
 
 bool Test::operator>(Test& another_test)
@@ -41,22 +36,28 @@ bool Test::operator!=(Test& another_test)
 	return !(*this == another_test);
 }
 
-wstring Test::getName()
+string Test::getName()
 {
 	return name;
 }
 
-wstring Test::getDefinition()
+string Test::getDefinition()
 {
 	return test_def;
 }
 
-wstring Test::getAnswersPath()
+string Test::getAnswersPath()
 {
 	return answers_path;
 }
 
-std::wostream& operator<<(std::wostream& out, Test& test)
+void Test::clearAns()
+{
+	File txt(answers_path);
+	txt.open_out();
+}
+
+std::ostream& operator<<(std::ostream& out, Test& test)
 {
 	out << test.getName() << endl << test.getDefinition() << endl;
 	return out;

@@ -11,6 +11,5 @@ using std::cin;
 using std::endl;
 using std::setw;
 using std::string;
-using std::wstring;
-using std::wcin;
-using std::wcout;
+using std::cout;
+using std::cerr;
