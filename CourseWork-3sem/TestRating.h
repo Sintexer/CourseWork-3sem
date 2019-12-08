@@ -1,7 +1,7 @@
 #pragma once
 #include "Test.h"
 
-class TestRating :
+class TestRating : //Тест на оценивание знаний 
 	public Test
 {
 protected:
@@ -12,9 +12,9 @@ public:
 	TestRating() : Test() {};
 	~TestRating() = default;
 
-	void addQuestion(Q_OneAns qoa);
-
 	virtual void start() = 0;
+	//Начало теста
 	virtual void check() = 0;
+	//Проверка и вывод результата
 };
 

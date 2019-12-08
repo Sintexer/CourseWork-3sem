@@ -61,3 +61,8 @@ const int Exc_input_range::getRightBound()
 {
 	return right_bound;
 }
+
+const string Exc_file::getPath()
+{
+	return path;
+}

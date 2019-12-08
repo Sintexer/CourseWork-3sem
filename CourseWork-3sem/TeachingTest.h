@@ -1,40 +1,48 @@
 #pragma once
 #include "Test.h"
-class TeachingTest :
+
+class TeachingTest : //Обучающий тест, кроме вопросов содержит теорию
 	public Test
 {
 protected:
 	std::list<string> theory;
+	//Список строк с теорией
 	std::vector<size_t> user_answers;
-	std::string theory_path{};
+	//Вектор ответов пользователя
 	std::list<Q_OneAns> questions;
+	//Список вопросов С одним ответом
+	//Ответ - это номер ответа из списка
 	std::string path{ "TeachingTests.txt" };
-	
+	//Путь к файлу с обучающими тестами
+	std::string theory_path{};
+	//Путь к файлу с теорией по тесту
 public:
 	TeachingTest() : Test() {};
 	~TeachingTest() = default;
 
-	void AddUserAns(size_t ans);
-	void addQuestion(Q_OneAns qoa);
-	void addTheor(string theor);
-	void setTheoryPath(string path);
 	void MakeTable();
+	//Выводит таблицу с ответами пользователя
 
 	virtual void start();
+	//Начало теста
 	bool startTheory();
+	//Начало теории по тесту
 	virtual void check();
+	//Сверяем ответы пользователя с правильными ответами и выводим результат
 	virtual void result();
-
-	string getTheoryPath();
-	string getPath();
+	//Выводит результат пользователя
 
 	void readTheory();
-
-	//friend std::ostream& operator<< (std::ostream& out, TeachingTest& obj);
-	friend std::istream& operator>> (std::istream& in, TeachingTest& obj);
-	bool putTheory();
-	bool putAnswers();
+	//Метод считывает блок теории из файла с теорией
 	bool getAnswers();
-	
+	//Метод получает ответы пользователя из файла с ответами, путь файла с ответами хранится в файле с тестом
+	bool putAnswers();
+	//Метод заносит ответы пользователя в файл
+	friend std::istream& operator>> (std::istream& in, TeachingTest& obj);
+
+	string getTheoryPath();
+	//Возвращает путь к файлу с теорией
+	string getPath();
+	//Возвращает путь к файлу с обучающими тестами
 };
 

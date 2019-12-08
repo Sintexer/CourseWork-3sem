@@ -1,6 +1,5 @@
 #include "ProfTest.h"
 #include "Exc.h"
-#include <stack>
 
 int findMaxInVect(std::vector<int>& vc) {
 	int prev{};
@@ -13,6 +12,7 @@ int findMaxInVect(std::vector<int>& vc) {
 	}
 	return index;
 }
+
 int finMaxInVectLessThan(std::vector<int>& vc, int prev_max) {
 	int prev{};
 	int index{};
@@ -24,12 +24,12 @@ int finMaxInVectLessThan(std::vector<int>& vc, int prev_max) {
 	}
 	return index;
 }
+
 void ProfTest::start()
 {
 	sum.clear();
 	getAnswers();
-	if (sum.size())
-	{
+	if (sum.size()){
 		if (user_answers.size() == questions.size()) {
 			getPersonDef();
 			cout << "Вы уже проходили этот тест" << endl;
@@ -38,10 +38,9 @@ void ProfTest::start()
 				<< "2: Посмотреть результаты\n"
 				<< "3: Удалить предыдущие результаты\n"
 				<< "\n0: Назад\n" << endl;
-			size_t answer;
+			size_t answer{};
 			inputSafe(cin, answer, 0, 3);
-			switch (answer)
-			{
+			switch (answer){
 			case 1:
 				user_answers.clear();
 				sum.clear();
@@ -70,7 +69,7 @@ void ProfTest::start()
 				<< "2: Пройти заново\n"
 				<< "3: Удалить предыдущие результаты\n"
 				<< "\n0: Назад\n" << endl;
-			size_t answer;
+			size_t answer{};
 			inputSafe(cin, answer, 0, 3);
 			switch (answer)
 			{
@@ -101,14 +100,15 @@ void ProfTest::start()
 	system("cls");
 	
 	typename std::list<Q_Cost>::iterator it = questions.begin();
-	size_t answer;
-	size_t st = 0;
-	size_t counter = user_answers.size();
+	size_t answer{};
+	size_t st{};
+	size_t counter = user_answers.size()+1;
 	while (st++<user_answers.size()) {
 		++it;
 	}
 	while (it != questions.end()) {
 		system("cls");
+		cout << "Вопрос " << counter << " из " << questions.size() << endl;
 		static_cast<Q_Cost>(*it).ask();
 		cout << "\n" << dynamic_cast<Q_Cost&>(*it).getAnswersSize() + 1
 			<< ": Прервать тест\n" << endl;
@@ -119,6 +119,7 @@ void ProfTest::start()
 			if (it == questions.begin())
 				return;
 			--it;
+			--counter;
 			sum[relative[user_answers.size()-1]-1] -= dynamic_cast<Q_Cost&>(*it).getCost(user_answers.back());
 			user_answers.pop_back();
 			continue;
@@ -148,7 +149,7 @@ void ProfTest::start()
 		user_answers.push_back(answer);
 		sum[relative[user_answers.back()]-1] += dynamic_cast<Q_Cost&>(*it).getCost(answer);
 		++it;
-			
+		++counter;
 	}
 	system("cls");
 	check();
@@ -213,12 +214,8 @@ void ProfTest::getPersonDef()
 	File txt(def_path);
 	txt.open_in();
 	string temp{};
-	while (txt.fin) {
-		while (txt.fin.peek() == '\n' || txt.fin.peek() == '\r')
-			txt.fin.get();
-		if (!txt.fin)
-			return;
-		getline(txt.fin, temp);
+	while (txt.in()) {
+		txt.readLine(temp);
 		person_def.push_back(temp);
 	}
 }
@@ -228,16 +225,16 @@ bool ProfTest::putAnswers()
 	File txt(answers_path);
 	if (!txt.open_out())
 		return false;
-	txt.fout << sum.size() << endl;
+	txt.write(sum.size());
 	std::vector<int>::iterator it = sum.begin();
 	while (it != sum.end()) {
-		txt.fout << *it << endl;
+		txt.write(*it);
 		++it;
 	}
-	txt.fout << user_answers.size() << endl;
+	txt.write(user_answers.size());
 	it = user_answers.begin();
 	while (it != user_answers.end()) {
-		txt.fout << *it << endl;
+		txt.write(*it);
 		++it;
 	}
 	return true;
@@ -249,17 +246,16 @@ bool ProfTest::getAnswers()
 	if (!txt.open_in())
 		return false;
 	int size{}, temp{};
-	txt.fin >> size;
+	txt.read(size);
 	sum.clear();
 	while (size) {
-		txt.fin >> temp;
+		txt.read(temp);
 		sum.push_back(temp);
 		--size;
 	}
-	txt.fin >> size;
-	last_question_index = size;
+	txt.read(size);
 	while (size) {
-		txt.fin >> temp;
+		txt.read(temp);
 		user_answers.push_back(temp);
 		--size;
 	}
@@ -270,23 +266,6 @@ string ProfTest::getPath()
 {
 	return path;
 }
-
-//std::ostream& operator<<(std::ostream& out, ProfTest& obj)
-//{
-//	out << obj.sum.size() << endl;
-//	std::vector<int>::iterator it = obj.sum.begin();
-//	while (it != obj.sum.end()) {
-//		out << *it << endl;
-//		++it;
-//	}
-//	out << obj.user_answers.size() << endl;
-//	it = obj.user_answers.begin();
-//	while (it != obj.user_answers.end()) {
-//		out << *it << endl;
-//		++it;
-//	}
-//	return out;
-//}
 
 std::istream& operator>>(std::istream& in, ProfTest& obj)
 {

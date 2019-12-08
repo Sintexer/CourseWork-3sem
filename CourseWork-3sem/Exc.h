@@ -1,28 +1,26 @@
 #pragma once
 #include "MostCommonHeaders.h"
-#include <iostream>
-#include <string>
 
-class Exc {
+class Exc { //родительский класс исключения
 protected:
     std::string exception_def;
+	//Описание исключения
 public:
     Exc():exception_def("None definition")
     {}
     explicit Exc(std::string exception_definition): exception_def(std::move(exception_definition))
     {}
 
-    const std::string &getExcDef() const;
-
-    void setExcDef(const std::string &exceptionDef);
+    const string& getExcDef() const;
+	//Возвращает описание исключения
 };
 
 
-class Exc_input:
+class Exc_input: //Исключение, вызванное пользательским вводом
         public Exc
 {
 protected:
-    int Exc_code;
+    int Exc_code; //Код ошибки ввода
 public:
     Exc_input(): Exc(), Exc_code(0)
     {}
@@ -30,13 +28,15 @@ public:
     {}
 
     const int getExcCode();
+	//Возвращает код ошибки ввода
 };
 
-class Exc_input_range :
+class Exc_input_range : //Ошибка ввода в диапазоне чисел
 	public Exc_input
 {
 protected:
 	int left_bound, right_bound;
+	//Границы ввода числа, left_bound должна быть меньше right_bound
 public:
 	Exc_input_range() : Exc_input(), left_bound(0), right_bound(0)
 	{}
@@ -45,25 +45,42 @@ public:
 
 	const int getLeftBound();
 	const int getRightBound();
+	//Методы возвращают левую и правую границы соответственно
 };
 
-void unpackExc(std::ostream& out, Exc& error);
+class Exc_file : //Исключение работы с файлом
+	public Exc
+{
+protected:
+	string path{};
+	//Путь файла, в работе с которым произошла ошибка
+public:
+	Exc_file() : Exc() 
+	{}
+	Exc_file(string def, string file_path) : Exc(def), path(file_path)
+	{}
+
+	const string getPath();
+	//Метод Возвращает путь к файлу
+};
+
 
 template<typename T>
 void inputSafe(std::istream& in, T& num) {
-	bool flag{ true };
-	while (flag)
+	//Функция безопасного ввода числа
+	bool flag{ true };//Устанавливается в false, если было вызвано исключение
+	while (flag)//Если не было вызвано исключение, то заканчиваем ввод
 	{
 		try {
 			flag = false;
 			in >> num;
-			if (!in.good() || in.peek() != '\n')
+			if (!in.good() || in.peek() != '\n')//Проверка на ввод числа
 				throw Exc_input(1, "Ввод неккоректен");
 		}
 		catch (Exc_input& error)
 		{
 			flag = true;
-			unpackExc(std::cerr, error);
+			unpackExc(cerr, error);
 			cout << "Введите число" << endl;
 			rewind(stdin);
 			in.clear();
@@ -80,15 +97,16 @@ void inputSafe(std::istream& in, T& num) {
 
 template<typename T>
 void inputSafe(std::istream& in, T& num, size_t range_left, size_t range_right) {
-	bool flag{ true };
-	while (flag)
+	//Функция ввода числа в границах диапазона
+	bool flag{ true };//Устанавливается в false, если было вызвано исключение
+	while (flag)//Если не было вызвано исключение, то заканчиваем ввод
 	{
 		try {
 			flag = false;
 			in >> num;
-			if (!in.good() || in.peek() != '\n')
+			if (!in.good() || in.peek() != '\n')//Проверка на ввод числа
 				throw Exc_input(2, "Ввод не является числом");
-			if (!(num >= range_left && num <= range_right))
+			if (!(num >= range_left && num <= range_right))//Проверка на границы диапазона
 				throw Exc_input_range(4, "Введенный элемент не входит в диапазон", range_left, range_right);
 
 		}
@@ -118,3 +136,7 @@ void inputSafe(std::istream& in, T& num, size_t range_left, size_t range_right) 
 
 
 void safeStr(std::istream& in, std::string& str);
+//Функция безопасного ввода строки
+
+void unpackExc(std::ostream& out, Exc& error);
+//Функция выводит информацию исключения на экран

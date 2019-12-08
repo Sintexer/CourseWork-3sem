@@ -1,14 +1,14 @@
 #include "MostCommonHeaders.h"
 #pragma once
 
-class OutputTable {
+class OutputTable { //Класс таблицы
 private:
 	std::string head;
 	std::string* strokes;
-	size_t* sizes{};
+	int* sizes{};
 	int str_num;
 	int col_num;
-	size_t size;
+	int size;
 
 	void set_sizes(); //set size_t size for each column according to the longest str in column
 public:
@@ -24,7 +24,7 @@ public:
 	void outHead(std::ostream& out);
 	void outStrokes(std::ostream& out);
 	void clear();
-	size_t getSize();
+	int getSize();
 };
 
-void makeDelim(const size_t* sizes_arr, int col_num, std::ostream& out);
+void makeDelim(const int* sizes_arr, int col_num, std::ostream& out);

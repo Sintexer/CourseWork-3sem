@@ -2,7 +2,7 @@
 
 #include <utility>
 
-size_t OutputTable::getSize() {
+int OutputTable::getSize() {
 	return str_num;
 }
 
@@ -13,7 +13,7 @@ OutputTable::OutputTable(std::string str) : strokes(nullptr), str_num(0), col_nu
 	while ((pos = head.find('|', pos + 1)) != std::string::npos)  //
 		++col_num;
 
-	sizes = new size_t[size = col_num];
+	sizes = new int[size = col_num];
 	sizes[0] = 1;
 
 	int i = 1;
@@ -40,10 +40,10 @@ void OutputTable::setHead(std::string hd)
 	while ((pos = head.find('|', pos + 1)) != std::string::npos)  //
 		++col_num;
 	int i = 0;
-	sizes = new size_t[col_num];
+	sizes = new int[col_num];
 	while ((pos = head.find('|', pos + 1)) != std::string::npos)
 	{
-		sizes[i++] = head.substr(prev, pos - prev).length();
+		sizes[i++] = int(head.substr(prev, pos - prev).length());
 		prev = pos;
 	}
 	sizes[i++] = head.substr(prev, pos - prev).length();
@@ -57,12 +57,12 @@ void OutputTable::add_str(std::string ns) {
 	std::string* temp = nullptr;
 	if (strokes) {
 		temp = new std::string[str_num - 1];
-		for (size_t i = 0; i < str_num - 1; ++i)
+		for (int i = 0; i < str_num - 1; ++i)
 			temp[i] = strokes[i];
 	}
 	delete[] strokes;
 	strokes = new std::string[size];
-	size_t i = 0;
+	int i = 0;
 	if (temp)
 		for (i = 0; i < str_num - 1; ++i)
 			strokes[i] = temp[i];
@@ -82,10 +82,10 @@ std::ostream& operator<<(std::ostream& out, OutputTable& tb) {
 }
 
 void OutputTable::set_sizes() {
-	size_t pos = 0, prev = 0;
-	for (size_t i = 0; i < str_num; ++i) {
+	int pos = 0, prev = 0;
+	for (int i = 0; i < str_num; ++i) {
 		prev = 0;
-		for (size_t j = 0; j < col_num; ++j) {
+		for (int j = 0; j < col_num; ++j) {
 			if ((pos = strokes[i].find('|', prev + 1)) == std::string::npos)
 				pos = strokes[i].length();
 			if (strokes[i].substr(prev, pos - prev).length() > sizes[j])
@@ -109,7 +109,7 @@ void OutputTable::clear() {
 
 void makeDelim(const size_t* sizes_arr, const int col_num, std::ostream& out) {
 	out << "+-";
-	for (size_t i = 0; i < col_num; ++i)
+	for (int i = 0; i < col_num; ++i)
 		out << std::string(sizes_arr[i] - 1, '-') + '+';
 	out << endl;
 }
@@ -117,7 +117,7 @@ void makeDelim(const size_t* sizes_arr, const int col_num, std::ostream& out) {
 void OutputTable::outHead(std::ostream& out) {
 	makeDelim(sizes, col_num, out); //+---+---+---+
 	out << '|';
-	size_t prev = 0, pos = 0, j = 0;
+	int prev = 0, pos = 0, j = 0;
 	out << std::string(sizes[0], ' ');
 	for (j = 1; j < col_num; ++j) {
 		if ((pos = head.find('|', prev + 1)) == std::string::npos)
@@ -133,8 +133,8 @@ void OutputTable::outHead(std::ostream& out) {
 void OutputTable::outStrokes(std::ostream& out) {
 	if (!str_num)
 		return;
-	size_t prev = 0, pos = 0, j = 0;
-	for (size_t i = 0; i < str_num; ++i) {
+	int prev = 0, pos = 0, j = 0;
+	for (int i = 0; i < str_num; ++i) {
 		prev = 0;
 		out << "|";
 		for (j = 0; j < col_num; ++j) {

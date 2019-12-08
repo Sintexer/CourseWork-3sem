@@ -1,17 +1,17 @@
 #include "PersonalityTest.h"
 #include "Exc.h"
 #include <sstream>
-#include <stack>
+
 
 void PersTest::start()
 {
 	sum = 0;
 	person_def.clear();
 	getAnswers();
-	std::stack<int> prev{};
+	// Очищаем предудыщие результаты теста, хранящиеся в объекте и получаем данные из файла
 	if (sum)
 	{
-		if (last_question_index == questions.size()) {
+		if (user_answers.size() == questions.size()) {
 			getPersonDef();
 			cout << "Вы уже проходили этот тест" << endl;
 			cout << "Желаете пройти его снова?" << endl;
@@ -19,12 +19,12 @@ void PersTest::start()
 				<< "2: Посмотреть результаты\n"
 				<< "3: Удалить результаты теста\n"
 				<< "\n0: Назад\n" << endl;
-			size_t answer;
-			inputSafe(cin, answer, 0, 2);
+			size_t answer{};
+			inputSafe(cin, answer, 0, 3);
 			switch (answer)
 			{
 			case 1:
-				last_question_index = 0;
+				user_answers.clear();
 				system("cls");
 				break;
 			case 2:
@@ -57,9 +57,9 @@ void PersTest::start()
 				system("cls");
 				break;
 			case 2:
-				last_question_index = 0;
+				user_answers.clear();
 				system("cls");
-				return;
+				break;
 			case 3:
 				clearAns();
 				return;
@@ -71,19 +71,22 @@ void PersTest::start()
 		}
 	}
 	else {
-		last_question_index = 0;
+		user_answers.clear();
 	}
 	cout << name << "\n" << endl;
 	cout << test_def << "\n" << endl;
 	system("pause");
 	system("cls");
-	size_t answer;
+	size_t answer{}, counter{ 1 };
 	typename std::list<Q_Cost>::iterator it = questions.begin();
-	size_t st = last_question_index;
-	while (st--)
+	size_t st = user_answers.size();
+	while (st--) {
+		++counter;
 		++it;
+	}
 	while (it != questions.end()) {
 		system("cls");
+		cout << "Вопрос " << counter << " из " << questions.size() << endl;
 		static_cast<Q_Cost>(*it).ask();
 		cout << "\n" << dynamic_cast<Q_Cost&>(*it).getAnswersSize() + 1
 			<< ": Прервать тест\n" << endl;
@@ -94,14 +97,14 @@ void PersTest::start()
 			if (it == questions.begin())
 				return;
 			--it;
-			--last_question_index;
-			sum -= prev.top();
-			prev.pop();
+			--counter;
+			sum -= dynamic_cast<Q_Cost&>(*it).getCost(user_answers.back());
+			user_answers.pop_back();
 			continue;
 		}
 		if (answer == dynamic_cast<Q_Cost&>(*it).getAnswersSize() + 1) {
 			system("cls");
-			if (last_question_index) {
+			if (user_answers.size()) {
 				cout << "Желаете сохранить ваш результат?\n"
 					<< "1: Да\n"
 					<< "2: Нет\n" << endl
@@ -121,10 +124,10 @@ void PersTest::start()
 			}
 			return;
 		}
-		prev.push(dynamic_cast<Q_Cost&>(*it).getCost(answer));
+		user_answers.push_back(answer);
 		sum += dynamic_cast<Q_Cost&>(*it).getCost(answer);
 		++it;
-		++last_question_index;
+		++counter;
 	}
 	system("cls");
 	check();
@@ -132,6 +135,7 @@ void PersTest::start()
 
 void PersTest::check()
 {
+	getPersonDef();
 	putPersonDef();
 	cout << endl;
 	system("pause");
@@ -154,12 +158,10 @@ void PersTest::getPersonDef()
 	bool flag{};
 	
 	do {
-		while (txt.fin.peek() == '\n')
-			txt.fin.get();
-		if (!txt.fin)
+		if (!txt.in())
 			break;
-		getline(txt.fin, temp);
-		if (isalnum(temp[0]))
+		txt.readLine(temp);
+		if (temp[0]>='0' && temp[0]<='9')
 			flag = true;
 		if (!flag)
 			person_def.push_back(temp);
@@ -181,8 +183,13 @@ bool PersTest::putAnswers()
 	File txt(answers_path);
 	if (!txt.open_out())
 		return false;
-	txt.fout << sum << endl;
-	txt.fout << last_question_index << endl;
+	txt.write(sum);
+	txt.write(user_answers.size());
+	std::vector<size_t>::iterator it = user_answers.begin();
+	while(it != user_answers.end()) {
+		txt.write(*it);
+		++it;
+	}
 	return true;
 }
 
@@ -191,8 +198,13 @@ bool PersTest::getAnswers()
 	File txt(answers_path);
 	if (!txt.open_in())
 		return false;
-	txt.fin >> sum;
-	txt.fin >> last_question_index;
+	txt.read(sum);
+	size_t sz{}, temp{};
+	txt.read(sz);
+	while (sz--) {
+		txt.read(temp);
+		user_answers.push_back(temp);
+	}
 	return true;
 }
 
@@ -200,13 +212,6 @@ string PersTest::getPath()
 {
 	return path;
 }
-
-//std::ostream& operator<<(std::ostream& out, PersTest& obj)
-//{
-//	out << obj.sum << endl;
-//	out << obj.last_question_index << endl;
-//	return out;
-//}
 
 std::istream& operator>>(std::istream& in, PersTest& obj)
 {

@@ -1,32 +1,40 @@
 #pragma once
 #include "TestDef.h"
 
-
-class PersTest :
-	public TestDef
+class PersTest : //Личностный тест
+	public TestDef //Тест с описанием черт характера пользователя
 {
 protected:
 	int sum{};
+	//Сумма баллов по ответам пользователя
+	//Эта сумма используется для выбора описания пользователя из файла с описаниями
+	//Баллы по каждому ответу хранятся в вопросе
+	std::vector<size_t> user_answers{};
+	//Вектор ответов пользователя
+	//Ответ - это номер из списка ответов
 	std::string path{ "PersonalityTests.txt" };
-	
+	//Путь к личностным тестам
+
 public:
 
 	PersTest() : TestDef() {};
 	~PersTest() = default;
 
-	//void MakeTable();
-
 	virtual void start();
+	//Начало теста
 	virtual void check();
-	void getPersonDef();
-	
-	//virtual void result();
-	//virtual void continue();
+	//Сверяем ответы пользователя с правильными ответами и выводим результат
 
-	//friend std::ostream& operator<< (std::ostream& out, PersTest& obj);
-	friend std::istream& operator>> (std::istream& in, PersTest& obj);
+	void getPersonDef();
+	//Метод получает описание пользователя из файла с описаниями
 	bool putAnswers();
+	//Метод заносит ответы пользователя в файл
 	bool getAnswers();
+	//Метод получает ответы пользователя из файла
+	friend std::istream& operator>> (std::istream& in, PersTest& obj);
+	//Оператор ввода теста из потока
+
 	string getPath();
+	//Метод возвращает путь файла с личностными тестами
 };
 

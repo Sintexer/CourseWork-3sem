@@ -20,12 +20,6 @@ void MathTest::MakeTable() {
 	cout << a << endl;
 }
 
-
-void MathTest::AddUserAns(size_t ans)
-{
-	user_answers.push_back(ans);
-}
-
 void MathTest::start()
 {
 	user_answers.clear();
@@ -96,28 +90,33 @@ void MathTest::start()
 	cout << test_def << "\n" << endl;
 	system("pause");
 	system("cls");
-	size_t answer;
+	size_t answer{}, counter{1}; // answer - ответ пользователя, counter - номер текущего вопроса
 
 	typename std::list<Q_OneAns>::iterator it = questions.begin();
 	size_t st = user_answers.size();
-	while (st--)
+	while (st--) {
 		++it;
+		++counter;
+	}
 	
 	while(it!=questions.end()){
 		system("cls");
+
+		cout << "Вопрос " << counter << " из " << questions.size() << endl; 
 		static_cast<Q_OneAns>(*it).ask();
 		cout << "\n" << dynamic_cast<Q_OneAns&>(*it).getAnswersSize() + 1 
-			<< ": Прервать тест\n" << endl;
-		cout << "0: Назад" << endl;
-		cout << "\nВведите ваш ответ: \n" << endl;
+			<< ": Прервать тест\n" 
+			<< "0: Назад\n"
+			<< "\nВведите ваш ответ: \n" << endl;
 		inputSafe(cin, answer, 0, dynamic_cast<Q_OneAns&>(*it).getAnswersSize()+1);
+
 		if (answer == 0) {
 			if (it == questions.begin())
 				return;
-			if (user_answers.size())//////////////
+			if (user_answers.size())
 				user_answers.pop_back();
 			--it;
-
+			--counter;
 			continue;
 		}
 		if (answer == dynamic_cast<Q_OneAns&>(*it).getAnswersSize() + 1) {
@@ -144,7 +143,7 @@ void MathTest::start()
 		}
 
 		user_answers.push_back(answer);
-		
+		++counter;
 		++it;
 	}
 	system("cls");
@@ -181,24 +180,8 @@ void MathTest::result()
 
 }
 
-//std::ostream& operator<< (std::ostream& out, MathTest& obj)
-//{
-//	out << obj.user_answers.size() << endl;
-//	int sz = obj.user_answers.size();
-//	std::vector<size_t>::iterator it;
-//	it = obj.user_answers.begin();
-//	while (sz--) {
-//		out << *it << endl;
-//		++it;
-//	}
-//	return out;
-//}
-
 std::istream& operator>> (std::istream& in, MathTest& obj)
 {
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
-	setlocale(LC_ALL, "rus");
 	while (in.peek() == '\n')
 		in.get();
 
@@ -226,10 +209,10 @@ bool MathTest::getAnswers()
 	if (!txt.open_in())
 		return false;
 	size_t size{};
-	txt.fin >> size;
+	txt.read(size);
 	while (size) {
 		size_t temp{};
-		txt.fin >> temp;
+		txt.read(temp);
 		user_answers.push_back(temp);
 		--size;
 	}
@@ -241,12 +224,12 @@ bool MathTest::putAnswers()
 	File txt(answers_path);
 	if (!txt.open_out())
 		return false;
-	txt.fout << user_answers.size() << endl;
+	txt.write(user_answers.size());
 	int sz = user_answers.size();
 	std::vector<size_t>::iterator it;
 	it = user_answers.begin();
 	while (sz--) {
-		txt.fout << *it << endl;
+		txt.write(*it);
 		++it;
 	}
 	return true;

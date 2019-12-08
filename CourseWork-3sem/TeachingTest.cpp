@@ -55,7 +55,7 @@ bool TeachingTest::startTheory()
 		system("cls");
 		cout << *it << endl;	
 		cout << "\n1: Вперед\n"
-			<< "2: Пропустить теорию\n" 
+			<< "2: Пропустить теорию\n\n" 
 			<< "3: Прервать тест\n"
 			<< "0: Назад" << endl;
 		cout << "\nВведите ваш ответ: \n" << endl;
@@ -122,7 +122,7 @@ void TeachingTest::start()
 			switch (answer)
 			{
 			case 1:
-				clearAns();
+				user_answers.clear();
 				system("cls");
 				break;
 			case 2:
@@ -175,20 +175,23 @@ void TeachingTest::start()
 	if (!startTheory())
 		return;
 
-	size_t answer;
+	size_t answer{}, counter{1};
+	counter = user_answers.size();
 	typename std::list<Q_OneAns>::iterator it = questions.begin();
 	size_t st = user_answers.size();
 	while (st--)
 		++it;
-
+	system("cls");
+	cout << "Практическая часть\n" << endl;
+	system("pause");
 	while (it != questions.end()) {
 		system("cls");
-		cout << "Практическая часть\n" << endl;
+		cout << "Вопрос " << counter << " из " << questions.size() << endl;
 		static_cast<Q_OneAns>(*it).ask();
 
 		cout << "\n" << dynamic_cast<Q_OneAns&>(*it).getAnswersSize()+1 
 			<< ": Прервать тест\n"
-			<< "\n0: Назад" << endl;
+			<< "0: Назад" << endl;
 
 		cout << "\nВведите ваш ответ: \n" << endl;
 		inputSafe(cin, answer, 0, dynamic_cast<Q_OneAns&>(*it).getAnswersSize()+1);
@@ -196,12 +199,18 @@ void TeachingTest::start()
 			if (it == questions.begin())
 				if (!startTheory())
 					return;
-				else
+				else {
+					if (it == questions.begin()) {
+						system("cls");
+						cout << "Практическая часть\n" << endl;
+						system("pause");
+					}
 					continue;
+				}
 			if (user_answers.size())/////////////
 				user_answers.pop_back();
 			--it;
-
+			--counter;
 			continue;
 		}
 		if (answer == (dynamic_cast<Q_OneAns&>(*it).getAnswersSize() + 1)) {
@@ -227,8 +236,8 @@ void TeachingTest::start()
 			return;
 		}
 		user_answers.push_back(answer);
-
 		++it;
+		++counter;
 	}
 	system("cls");
 	check();
@@ -299,17 +308,6 @@ bool TeachingTest::getAnswers()
 	}
 	return true;
 }
-
-//std::ostream& operator<<(std::ostream& out, TeachingTest& obj)
-//{
-//	out << obj.user_answers.size() << endl;
-//	std::vector<size_t>::iterator in = obj.user_answers.begin();
-//	while (in != obj.user_answers.end()) {
-//		out << *in << endl;
-//		++in;
-//	}
-//	return out;
-//}
 
 std::istream& operator>>(std::istream& in, TeachingTest& obj)
 {

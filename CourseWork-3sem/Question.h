@@ -1,63 +1,56 @@
 #pragma once
-#include "MostCommonHeaders.h"
 #include "File.h"
-#include <vector>
 
-	class Question
-	{//questin_def
+	class Question //Родительский класс вопроса без специализации
+	{
 	protected:
 		string question_def{};
-		// 
+		//Здесь хранится условие вопроса
 
 	public:
 		Question() = default;
-		Question(string quest) : question_def(quest) {};
+		Question(string question) : question_def(question) {};
 		Question(const Question& qst) : question_def(qst.question_def) {};
 		~Question() = default;
 
-		void setQuestionDef(string qstdef);
-		string getQuestionDef();
+		virtual void ask() = 0;
+		//Метод выводит вопрос и варианты ответа на него
 	};
 
-	//
-	//
-	//
-	//
-	//
-
-	class Q_OneAns :
+	class Q_OneAns : //Вопрос с одним ответом
 		public Question
 	{//questin_def, answers, correct_ans
 	protected:
 		std::vector<string> answers{};
-		
-
+		//Вектор вариантов ответа на вопрос
 		double correct_ans{};
-		
+		//Ответ пользователя может быть как номером ответа, так и любым числом,
+		//если в вопросе нет вариантов ответа
 	public:
 		Q_OneAns() = default;
 		Q_OneAns(string qst) : Question(qst) {};
 		Q_OneAns(const Q_OneAns& qoa) : Question(qoa.question_def), correct_ans(qoa.correct_ans), answers(qoa.answers) {};
 		~Q_OneAns() = default;
 
-		void setCorrectAns(double ans);
-		double getCorrectAns();
+		virtual void ask() override;
+		//Метод выводит вопрос и варианты ответа на него
 
-		void addAnswer(string another_ans);
-		std::vector<string> getAnswers();
+		double getCorrectAns();
+		//Возвращает правильный ответ на вопрос
 		size_t getAnswersSize();
+		//Возвращает количество ответов на вопрос
 
 		friend std::istream& operator>> (std::istream& in, Q_OneAns& obj);
-
-		void ask();
+		//Оператор ввода вопроса из потока ввода
+		
 	};
 
-	class Q_Cost :
+	class Q_Cost : //Вопрос, где у каждого варианта ответа есть цена
 	public Question
-	{//questin_def, answers, correct_ans
+	{
 	protected:
 		std::vector<string> answers{"Очень часто", "Часто", "Иногда", "Редко", "Никогда"};
-		//Вектор, который содержит варианты ответа на question_def
+		//Вектор, который содержит варианты ответа на вопрос
 		std::vector<int> costs{5,4,3,2,1};
 		//Вектор содержит кол-во баллов, которые дает каждый ответ
 	public:
@@ -66,16 +59,15 @@
 		Q_Cost(const Q_Cost& qoa) : Question(qoa.question_def), answers(qoa.answers), costs(qoa.costs) {};
 		~Q_Cost() = default;
 
-
-		void addAnswer(string another_ans);
-		std::vector<string> getAnswers();
-
-		void addCost(int cost);
+		virtual void ask() override;
+		//Метод выводит вопрос и варианты ответа на него
+		
 		int getCost(int a);
-		std::vector<int> getCosts();
+		//Возвращает цену из вектора costs по переданному индексу
+		//Предусмотрены исключительные ситуации
 		size_t getAnswersSize();
+		//Возвращает количество ответов на вопрос
 
 		friend std::istream& operator>> (std::istream& in, Q_Cost& obj);
-
-		void ask();
+		//Оператор ввода вопроса из потока ввода
 	};

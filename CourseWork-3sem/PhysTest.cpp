@@ -22,26 +22,20 @@ void PhysTest::MakeTable() {
 	cout << a << endl;
 }
 
-
-void PhysTest::AddUserAns(double ans)
-{
-	user_answers.push_back(ans);
-}
-
 void PhysTest::start()
 {
-	user_answers.clear();
-	getAnswers();
+	user_answers.clear(); // очищаем буфер ответов
+	getAnswers(); // Получаем ответы пользователя на тест из файла
 	if (user_answers.size())
 	{
-		if (user_answers.size() == questions.size()) {
+		if (user_answers.size() == questions.size()) { // Если тест пройден до конца
 			cout << "Вы уже проходили этот тест" << endl;
 			cout << "Желаете пройти его снова?" << endl;
 			cout << "\n1: Пройти тест заново\n"
 				<< "2: Посмотреть результаты\n"
 				<< "3: Удалить предыдущие результаты\n"
 				<< "\n0: Назад\n" << endl;
-			size_t answer;
+			size_t answer{}; // ввод пользователя
 			inputSafe(cin, answer, 0, 3);
 			switch (answer)
 			{
@@ -65,14 +59,14 @@ void PhysTest::start()
 				break;
 			}
 		}
-		else {
+		else { // Если тест пройден не до конца
 			cout << "Вы уже проходили этот тест" << endl;
 			cout << "Желаете продолжить его?" << endl;
 			cout << "\n1: Продолжить тест\n"
 				<< "2: Пройти заново\n"
 				<< "3: Удалить предыдущие результаты\n"
 				<< "\n0: Назад\n" << endl;
-			size_t answer;
+			size_t answer{}; // ввод пользователя
 			inputSafe(cin, answer, 0, 3);
 			switch (answer)
 			{
@@ -93,23 +87,30 @@ void PhysTest::start()
 			}
 		}
 	}
+
 	cout << name << "\n" << endl;
 	cout << test_def << endl;
 	system("pause");
 	system("cls");
-	double answer;
+
+	double answer; // answer - ввод пользователя
+	size_t counter{ 1 }; // Номер текущего вопроса
 	typename std::list<Q_OneAns>::iterator it = questions.begin();
 
 	size_t st = user_answers.size();
-	while (st--)
+	while (st--) {
+		//Продолжаем тест с того места, на котором закончили
 		++it;
+		++counter;
+	}
 
 	while (it != questions.end()) {
 		system("cls");
+		cout << "Вопрос " << counter << " из " << questions.size() << endl;
 		static_cast<Q_OneAns>(*it).ask();
-		cout << "\n" << "1: Прервать тест\n" << endl;
-		cout << "0: Назад" << endl;
-		cout << "\nВведите ваш ответ: \n" << endl;
+		cout << "\n" << "1: Прервать тест\n"
+			 << "0: Назад" 
+			 << "\nВведите ваш ответ: \n" << endl;
 		inputSafe(cin, answer);
 		if (answer == 0) {
 			if (it == questions.begin())
@@ -117,7 +118,7 @@ void PhysTest::start()
 			if (!user_answers.size())
 				user_answers.pop_back();
 			--it;
-
+			--counter;
 			continue;
 		}
 		if (answer == 1) {
@@ -144,7 +145,7 @@ void PhysTest::start()
 			return;
 		}
 		user_answers.push_back(answer);
-
+		++counter;
 		++it;
 	}
 	system("cls");
@@ -183,10 +184,10 @@ bool PhysTest::putAnswers() {
 	File txt(answers_path);
 	if (!txt.open_out())
 		return false;
-	txt.fout << user_answers.size() << endl;
+	txt.write(user_answers.size());
 	std::vector<double>::iterator in = user_answers.begin();
 	while (in != user_answers.end()) {
-		txt.fout << *in << endl;
+		txt.write(*in);
 		++in;
 	}
 	return true;
@@ -198,10 +199,10 @@ bool PhysTest::getAnswers()
 	if (!txt.open_in())
 		return false;
 	size_t size{};
-	txt.fin >> size;
+	txt.read(size);
 	while (size) {
 		size_t temp{};
-		txt.fin >> temp;
+		txt.read(temp);
 		user_answers.push_back(temp);
 		--size;
 	}
@@ -212,17 +213,6 @@ string PhysTest::getPath()
 {
 	return path;
 }
-
-//std::ostream& operator<<(std::ostream& out, PhysTest& obj)
-//{
-//	out << obj.user_answers.size() << endl;
-//	std::vector<double>::iterator in = obj.user_answers.begin();
-//	while (in != obj.user_answers.end()) {
-//		out << *in << endl;
-//		++in;
-//	}
-//	return out;
-//}
 
 std::istream& operator>>(std::istream& in, PhysTest& obj)
 {
@@ -245,10 +235,4 @@ std::istream& operator>>(std::istream& in, PhysTest& obj)
 		in.get();
 	getline(in, obj.answers_path);
 	return in;
-}
-
-string toStr(double val) {
-	std::ostringstream ost;
-	ost << val;
-	return ost.str();
 }

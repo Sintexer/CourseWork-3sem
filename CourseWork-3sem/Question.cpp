@@ -1,4 +1,5 @@
 #include "Question.h"
+#include "Exc.h"
 
 void Question::setQuestionDef(string qstdef)
 {
@@ -45,24 +46,20 @@ void Q_OneAns::ask()
 	}
 }
 
-void Q_Cost::addAnswer(string another_ans)
-{
-	answers.push_back(another_ans);
-}
-
-std::vector<string> Q_Cost::getAnswers()
-{
-	return answers;
-}
-
-void Q_Cost::addCost(int cost)
-{
-	costs.push_back(cost);
-}
 
 int Q_Cost::getCost(int a)
 {
-	return costs[--a];
+	try {
+		if (a<0 || a>costs.size() - 1)
+			throw Exc("Индекс за границами массива");
+		return costs[--a];
+	}
+	catch (Exc& err) {
+		unpackExc(cerr, err);
+	}
+	catch (...) {
+		cerr << "Unexpected exception" << endl;
+	}
 }
 
 std::vector<int> Q_Cost::getCosts()

@@ -1,33 +1,50 @@
 #pragma once
 #include "TestDef.h"
-class ProfTest :
-	public TestDef
+
+class ProfTest : //Тест на проф пригодность
+	public TestDef //Тест с описанием черт характера пользователя
 {
 protected:
 	std::vector<int> sum{};
+	//Вектор с суммами
+	//Суммы считаются исходя из ответов пользователя
+	//Цена ответа хранится в объекте вопроса
+	//Новый ответ заносится в нужную сумму благодаря вектору relative
+	//Индекс вектора relative - это номер вопроса, а то,
+	//что хранится в этом индексе - индекс в массиве sum, куда нужно добавить
+	//цену ответа пользователя
 	int sz{};
-	std::string path{ "ProfessionTests.txt" };
+	//В эту переменную заносится размер массива sum из файла
 	std::vector<int> relative{};
+	//Вектор, в котором хранятся индексы в массиве sum, к которым относятся вопросы
 	std::vector<int> user_answers{};
+	//Вектор хранит ответы пользователя
+	//Ответ - это номер из списка ответов
+	std::string path{ "ProfessionTests.txt" };
+	//Путь к файлу с тестами на проф пригодность
 public:
 
 	ProfTest() : TestDef() {};
 	~ProfTest() = default;
 
-	//void MakeTable();
-
 	virtual void start();
+	//Начало теста
 	virtual void check();
+	//Сверяем ответы пользователя с правильными ответами и выводим результат
 	void result();
+	//Выводит результат пользователя
+	
 	void getPersonDef();
-
-	//virtual void result();
-	//virtual void continue();
-
-	//friend std::ostream& operator<< (std::ostream& out, ProfTest& obj);
-	friend std::istream& operator>> (std::istream& in, ProfTest& obj);
-	bool putAnswers();
+	//Метод получает описание пользователя из файла, они заносятся в массив описания
+	//В порядке убывания соответствующмх им сумм из вектора sum
 	bool getAnswers();
+	//Метод получает ответы пользователя из файла с ответами, путь файла с ответами хранится в файле с тестом
+	bool putAnswers();
+	//Метод заносит ответы пользователя в файл
+	friend std::istream& operator>> (std::istream& in, ProfTest& obj);
+	//Оператор ввода теста из потока
+	
 	string getPath();
+	//Метод возвращает путь файла с тестами
 };
 
