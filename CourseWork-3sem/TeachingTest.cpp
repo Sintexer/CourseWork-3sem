@@ -1,26 +1,5 @@
 #include "TeachingTest.h"
-#include "Exc.h"
 #include "OutputTable.h"
-
-void TeachingTest::AddUserAns(size_t ans)
-{
-	user_answers.push_back(ans);
-}
-
-void TeachingTest::addQuestion(Q_OneAns qoa)
-{
-	questions.push_back(qoa);
-}
-
-void TeachingTest::addTheor(string theor)
-{
-	theory.push_back(theor);
-}
-
-void TeachingTest::setTheoryPath(string path)
-{
-	theory_path = path;
-}
 
 void TeachingTest::MakeTable() {
 	OutputTable a("Ваш ответ|Правильно");
@@ -268,8 +247,7 @@ void TeachingTest::readTheory()
 bool TeachingTest::putAnswers()
 {
 	File txt(answers_path);
-	if (!txt.open_out())
-		return false;
+	txt.open_out();
 	txt.write(user_answers.size());
 	std::vector<size_t>::iterator in = user_answers.begin();
 	while (in != user_answers.end()) {
@@ -279,25 +257,10 @@ bool TeachingTest::putAnswers()
 	return true;
 }
 
-bool TeachingTest::putTheory()
-{
-	File txt(theory_path);
-	if(!txt.open_out())
-		return false;
-	std::list<string>::iterator in = theory.begin();
-	while (in != theory.end()) {
-		txt.write(*in);
-		++in;
-	}
-	txt.close();
-	return true;
-}
-
 bool TeachingTest::getAnswers()
 {
 	File txt(answers_path);
-	if (!txt.open_in())
-		return false;
+	txt.open_in();
 	size_t size{};
 	txt.read(size);
 	while (size) {

@@ -1,75 +1,61 @@
 #pragma once
-#include "MostCommonHeaders.h"
 #include "Exc.h"
 #include <fstream>
 
 class File
 {// Класс файла, для настраиваемого создания и уничтожения объектов файловых потоков
 protected:
-	string file_path{};
-	//Путь файла
-	std::ofstream fout{};
-	//Файловый выходной поток, привязвнный к file_path
-	std::ifstream fin{};
-	//Файловый входной поток, привязвнный к file_path
-
+	string file_path{};//Путь файла
+	std::ofstream fout{}; //Файловый выходной поток, привязвнный к file_path
+	std::ifstream fin{}; //Файловый входной поток, привязвнный к file_path
 public:
-	File(string path): file_path(std::move(path)) {}
-	//Конструктор через путь к файлу
-	~File()
-	{
+	File(string path): file_path(std::move(path))//Конструктор через путь к файлу
+	{} 
+	~File(){//Деструтор закрывает потоки
 		fout.close();
 		fin.close();
-	}//деструтор закрывает потоки
+	}
 
-	bool open_out();
-	//Открыть выходной поток
-	bool open_in();
-	//Открыть входной поток
-	void flush();
-	//Внести изменения в файл из выходного потока, без закрытия потока
-	bool in();
-	//Проверка, не закончился ли файл
-	void close();
-	//Метод закрытия обоих потоков
+	void open_out();//Открыть выходной поток
+	void open_in();//Открыть входной поток
 
-	template<typename Ty>
-	void write(Ty obj);
-	//Метод записи объекта в файл
+	void flush();//Внести изменения в файл из выходного потока, без закрытия потока
+	bool in();	//Проверка, не закончился ли файл
+	void close();	//Метод закрытия обоих потоков
 
-	template<typename Ty>
-	bool readLine(Ty& obj);
-	//Метод считывает из файла строку и заносит ее в объект
+	template<typename T>
+	void write(T obj, char delim = '\n');	//Метод записи объекта в файл
+		
+	template<typename T>
+	bool readLine(T& obj, char delim = '\n');	//Метод считывает из файла строку и заносит ее в объект
 
-	template<typename Ty>
-	bool read(Ty& obj);
-	//Метод считывает из файла объект
+	template<typename T>
+	bool read(T& obj, char delim = '\n');//Метод считывает из файла объект
 };
 
-template<typename Ty>
-inline void File::write(Ty obj)
+template<typename T>
+inline void File::write(T obj, char delim)//Записывает объект T obj в файл, привязанный к потоку fout
 {
-	fout << obj <<  endl;
+	fout << obj <<  delim; //Запись объекта в файл
 }
 
-template<typename Ty>
-inline bool File::readLine(Ty& obj)
-{
-	fin.ignore(32768, '\n');
-	if (fin.eof())
-		return false;
-	//Если конец файла - возвращаем false
-	getline(fin, obj);
-	return true;
+template<typename T>
+inline bool File::readLine(T& obj, char delim){//Читает строку из файла и заносит в объект T obj
+	while (fin.peek() == '\n') //Пропуск символов новой строки из буфера, которые могут остаться после ввода числа
+		fin.get();
+	if (fin.eof())//Если конец файла
+		return false;//Возвращает false
+	getline(fin, obj);//Считывает строку из файла
+	return true;//Возвращает true
 }
 
-template<typename Ty>
-inline bool File::read(Ty& obj)
-{
-	fin.ignore(32768, '\n');
-	if (fin.eof())
-		return false;
-	//Если конец файла - возвращаем false
-	fin >> obj;
-	return true;
+template<typename T>
+inline bool File::read(T& obj, char delim){//Читает строку из файла и заносит в объект T obj
+
+	while (fin.peek() == '\n')//Пропуск символов новой строки из буфера, которые могут остаться после ввода числа
+		fin.get();
+	if (fin.eof())//Если конец файла
+		return false;//Возвращает false
+	fin >> obj;//Считывает объект из файла
+	return true;//Возвращает true
 }

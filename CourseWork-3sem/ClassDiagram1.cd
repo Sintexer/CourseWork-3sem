@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="File">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAIAAEQIAAAAAAgCAAAAAAAAAECAAAAYgAABAAAAA=</HashCode>
+      <FileName>File.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interface&lt;Ty&gt;">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAMABAAAAAAAAAA=</HashCode>
+      <FileName>Interface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenu">
+    <Position X="17" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAgAAAAAAAAIAAAAAAAgAAAA=</HashCode>
+      <FileName>MainMenu.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MathTest">
+    <Position X="7.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAIAAAgBAACQAIAAAIAAAIAIACAAAAAAAA=</HashCode>
+      <FileName>MathTest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PhysTest">
+    <Position X="9.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAIAAAgBAACQAIAQAAAAAIAIAAAAAAAAAA=</HashCode>
+      <FileName>PhysTest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProfTest">
+    <Position X="2.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIABAAoAAAIAAAgBAACQAIAAAAAgAIAAAADAAAAAAA=</HashCode>
+      <FileName>ProfTest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Question">
+    <Position X="13.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAEAEAAAAIAAAA=</HashCode>
+      <FileName>Question.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Q_OneAns">
+    <Position X="12.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAIAIAAAAAAAAAAAgAAABAAAAAAEABAAAAAAA=</HashCode>
+      <FileName>Question.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Q_Cost">
+    <Position X="14.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQFAAAAAAAIAAAAAAAAAAABAAAgAAEAAAAAAAAA=</HashCode>
+      <FileName>Question.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersTest">
+    <Position X="5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIABAAAAAAICAAgAAACQAIAAAAAAAIAAAABAAAIAAA=</HashCode>
+      <FileName>PersonalityTest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeachingTest">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAQAAAAAIAAAgBAACQCIAAAQAAAIAIAAAAgAAQAk=</HashCode>
+      <FileName>TeachingTest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Test">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAoAIAAAAIAAAgAAAAAUAAAAAEwAAAAAAkCAAAAAA=</HashCode>
+      <FileName>Test.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestDef">
+    <Position X="4" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAgACCAAAAAQAQAAARAEAAAAAAAAAA=</HashCode>
+      <FileName>TestDef.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestRating">
+    <Position X="8.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAIAAAgAAAAAAAAAAQAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>TestRating.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exc">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAABAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exc_input">
+    <Position X="12.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Exc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exc_input_range">
+    <Position X="12.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAABAEA=</HashCode>
+      <FileName>Exc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exc_file">
+    <Position X="14.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAIAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Exc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OutputTable">
+    <Position X="18.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEEIAAIQhYAAAAAAAIAAAAAAAAAIAAIAAgAAAAAAACI=</HashCode>
+      <FileName>OutputTable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tree&lt;T&gt;">
+    <Position X="20.5" Y="5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Tree&lt;T&gt;::Node&lt;N&gt;" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Tree.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Tree&lt;T&gt;::iterator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Tree.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAgACGAADCAAACAIAgAoBSAAAAAAAADAAAQQAAAAA=</HashCode>
+      <FileName>Tree.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Comparator">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TreeAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -27,9 +27,9 @@ public:
 
 	void getPersonDef();
 	//Метод получает описание пользователя из файла с описаниями
-	bool putAnswers();
+	void putAnswers();
 	//Метод заносит ответы пользователя в файл
-	bool getAnswers();
+	void getAnswers();
 	//Метод получает ответы пользователя из файла
 	friend std::istream& operator>> (std::istream& in, PersTest& obj);
 	//Оператор ввода теста из потока

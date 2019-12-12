@@ -1,21 +1,5 @@
 #include "Test.h"
 
-void Test::setName(string test_name)
-{
-	name = test_name;
-}
-
-void Test::setDefinition(string definition)
-{
-	test_def = definition;
-}
-
-void Test::setAnswersPath(string path)
-{
-	answers_path = path;
-}
-
-
 bool Test::operator>(Test& another_test)
 {
 	return name>another_test.name;

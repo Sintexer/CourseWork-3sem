@@ -107,7 +107,7 @@ void OutputTable::clear() {
 
 }
 
-void makeDelim(const size_t* sizes_arr, const int col_num, std::ostream& out) {
+void makeDelim(const int* sizes_arr, const int col_num, std::ostream& out) {
 	out << "+-";
 	for (int i = 0; i < col_num; ++i)
 		out << std::string(sizes_arr[i] - 1, '-') + '+';

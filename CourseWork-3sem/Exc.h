@@ -99,10 +99,10 @@ template<typename T>
 void inputSafe(std::istream& in, T& num, size_t range_left, size_t range_right) {
 	//Функция ввода числа в границах диапазона
 	bool flag{ true };//Устанавливается в false, если было вызвано исключение
-	while (flag)//Если не было вызвано исключение, то заканчиваем ввод
+	while (flag)
 	{
 		try {
-			flag = false;
+			flag = false;//Если не было вызвано исключение, то заканчиваем ввод
 			in >> num;
 			if (!in.good() || in.peek() != '\n')//Проверка на ввод числа
 				throw Exc_input(2, "Ввод не является числом");

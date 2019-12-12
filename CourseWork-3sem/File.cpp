@@ -1,32 +1,49 @@
 #include "File.h"
+#include "Exc.h"
 
 bool File::in() {
-	fin.ignore(32768, '\n');
-	return !fin.eof();
+	while (fin.peek() == '\n') //Пропуск символов новой строки из буфера, которые могут остаться после ввода числа
+		fin.get();
+	return !fin.eof(); //Возврат состояния конца потока
 }
 
 void File::close() {
-	fin.close();
+	fin.close(); //Закрытие потоков ввода и вывода
 	fout.close();
 }
 
-inline bool File::open_out()
+void File::open_out()
 {
-	fout.open(file_path);
-	if (!fout.is_open())
-		cerr << "Невозможно открыть файл" << endl;
-	return fout.is_open();
+	try {
+		fout.open(file_path);
+		if (!fout.is_open())//Если поток не открылся
+			throw Exc_file("Невозможно открыть файл", file_path);
+	}
+	catch (Exc_file& err) {
+		unpackExc(cerr, err); //Вывод ошибки на экран
+	}
+	catch (...) {
+		cerr << "Unexpected exception" << endl;
+	}
 }
 
-inline bool File::open_in()
+void File::open_in()
 {
-	fin.open(file_path);
-	if (!fin.is_open())
-		cerr << "Невозможно открыть файл" << endl;
-	return fin.is_open();
+	try {
+		fin.open(file_path);
+		if (!fin.is_open())//Если поток не открылся
+			throw Exc_file("Невозможно открыть файл", file_path);
+	}
+	catch (Exc_file& err) {
+		unpackExc(cerr, err); //Вывод ошибки на экран
+	}
+	catch (...) {
+		cerr << "Unexpected exception" << endl;
+	}
 }
 
-inline void File::flush()
+
+inline void File::flush() //Выталкивает данные из потока в файл
 {
-	fout.flush();
+	fout.flush(); 
 }

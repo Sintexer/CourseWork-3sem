@@ -5,9 +5,9 @@ class TestDef : //Тест с описанием черт характера пользователя
 	public Test
 {
 protected:
-	std::list<string> person_def{};
+	list<string> person_def{};
 	//В этом списке хранятся строки с описанием пользователя
-	std::list<Q_Cost> questions{};
+	list<Q_Cost> questions{};
 	//Этот список содержит вопросы с ценой ответа
 	//Ответ - это номер варианта из списка ответов
 	string def_path{};

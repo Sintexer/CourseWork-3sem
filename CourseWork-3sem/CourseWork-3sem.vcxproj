@@ -154,7 +154,6 @@
     <ClCompile Include="CourseWork-3sem.cpp" />
     <ClCompile Include="Exc.cpp" />
     <ClCompile Include="File.cpp" />
-    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MathTest.cpp" />
     <ClCompile Include="OutputTable.cpp" />
@@ -166,7 +165,6 @@
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestDef.cpp" />
     <ClCompile Include="TestRating.cpp" />
-    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TreeAlgorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,3 +35,10 @@ public:
 	string getPath();
 	//Метод возвращает путь файла с тестами
 };
+
+template<typename T>//Функция переводит любой тип в строку и возвращает ее
+string toStr(T val) {
+	std::ostringstream ost;
+	ost << val;
+	return ost.str();
+}
