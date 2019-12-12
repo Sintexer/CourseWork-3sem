@@ -27,9 +27,6 @@
     <ClCompile Include="Exc.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="TestRating.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="MathTest.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>

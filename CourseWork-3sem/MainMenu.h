@@ -3,10 +3,9 @@
 
 class MainMenu
 {
-private:
 public:
 	void init();
-	//Главвное меню, где выбирается вид тестов
+	//Главное меню, где выбирается вид тестов
 	bool ratingTestMenu();
 	//Подменю тестов оценки знаний
 	bool psychoTestMenu();

@@ -194,11 +194,10 @@ void PersTest::getPersonDef(){ //Ввод описания личности пользователя из файла в 
 void PersTest::putAnswers(){ //Запись ответов пользователя в файл
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_out(); //Открытие выходного потока файла
-	txt.write(sum); //Запись суммы баллов пользователя
-	txt.write(user_answers.size()); 
+	txt.write(sum, '|'); //Запись суммы баллов пользователя
 	std::vector<size_t>::iterator it = user_answers.begin();
 	while(it != user_answers.end()) {
-		txt.write(*it); //Последовательная запись ответов пользователя в файл
+		txt.write(*it, '|'); //Последовательная запись ответов пользователя в файл
 		++it;
 	}
 }
@@ -207,11 +206,12 @@ void PersTest::getAnswers(){ //Чтение ответов пользователя из файла
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_in(); //Открытие входного потока файла
 	txt.read(sum); //Чтение суммы баллов пользователя из файла
-	size_t sz{}, temp{}; //sz - число ответов, temp - ответ пользователя
-	txt.read(sz);
-	while (sz--) {
+	txt.getFin().get();
+	size_t temp{}; //temp - ответ пользователя
+	while (txt.in()) {
 		txt.read(temp); //Чтение ответа пользователя из файла
 		user_answers.push_back(temp); //Внесение ответа пользователя в вектор
+		txt.getFin().get();
 	}
 }
 

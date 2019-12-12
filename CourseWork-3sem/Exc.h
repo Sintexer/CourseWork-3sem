@@ -3,16 +3,14 @@
 
 class Exc { //родительский класс исключения
 protected:
-    std::string exception_def;
-	//Описание исключения
+    std::string exception_def; //Описание исключения
 public:
     Exc():exception_def("None definition")
     {}
     explicit Exc(std::string exception_definition): exception_def(std::move(exception_definition))
     {}
 
-    const string& getExcDef() const;
-	//Возвращает описание исключения
+    const string& getExcDef() const; //Возвращает описание исключения
 };
 
 
@@ -27,49 +25,43 @@ public:
     Exc_input(int code, std::string exception_definition):Exc(std::move(exception_definition)), Exc_code(code)
     {}
 
-    const int getExcCode();
-	//Возвращает код ошибки ввода
+    const int getExcCode();	//Возвращает код ошибки ввода
 };
 
 class Exc_input_range : //Ошибка ввода в диапазоне чисел
 	public Exc_input
 {
 protected:
-	int left_bound, right_bound;
-	//Границы ввода числа, left_bound должна быть меньше right_bound
+	int left_bound, right_bound;//Границы ввода числа, left_bound должна быть меньше right_bound
 public:
 	Exc_input_range() : Exc_input(), left_bound(0), right_bound(0)
 	{}
 	Exc_input_range(int code, std::string exception_definition, int lft, int rht) :Exc_input(code, std::move(exception_definition)), left_bound(lft), right_bound(rht)
 	{}
 
-	const int getLeftBound();
-	const int getRightBound();
-	//Методы возвращают левую и правую границы соответственно
+	const int getLeftBound(); //Возвращает левую границу диапазона
+	const int getRightBound(); //Возвращает правую границу диапазона
 };
 
 class Exc_file : //Исключение работы с файлом
 	public Exc
 {
 protected:
-	string path{};
-	//Путь файла, в работе с которым произошла ошибка
+	string path{}; //Путь файла, в работе с которым произошла ошибка
 public:
 	Exc_file() : Exc() 
 	{}
 	Exc_file(string def, string file_path) : Exc(def), path(file_path)
 	{}
 
-	const string getPath();
-	//Метод Возвращает путь к файлу
+	const string getPath(); //Метод Возвращает путь к файлу
 };
 
 
 template<typename T>
-void inputSafe(std::istream& in, T& num) {
-	//Функция безопасного ввода числа
+void inputSafe(std::istream& in, T& num) {	//Функция безопасного ввода числа
 	bool flag{ true };//Устанавливается в false, если было вызвано исключение
-	while (flag)//Если не было вызвано исключение, то заканчиваем ввод
+	while (flag)//Если не было вызвано исключение, то ввод завершается
 	{
 		try {
 			flag = false;
@@ -96,13 +88,12 @@ void inputSafe(std::istream& in, T& num) {
 }
 
 template<typename T>
-void inputSafe(std::istream& in, T& num, size_t range_left, size_t range_right) {
-	//Функция ввода числа в границах диапазона
+void inputSafe(std::istream& in, T& num, size_t range_left, size_t range_right) { //Функция ввода числа в границах диапазона
 	bool flag{ true };//Устанавливается в false, если было вызвано исключение
 	while (flag)
 	{
 		try {
-			flag = false;//Если не было вызвано исключение, то заканчиваем ввод
+			flag = false;//Если не было вызвано исключение, то ввод завершается
 			in >> num;
 			if (!in.good() || in.peek() != '\n')//Проверка на ввод числа
 				throw Exc_input(2, "Ввод не является числом");
@@ -135,8 +126,6 @@ void inputSafe(std::istream& in, T& num, size_t range_left, size_t range_right) 
 }
 
 
-void safeStr(std::istream& in, std::string& str);
-//Функция безопасного ввода строки
+void safeStr(std::istream& in, std::string& str);//Функция безопасного ввода строки
 
-void unpackExc(std::ostream& out, Exc& error);
-//Функция выводит информацию исключения на экран
+void unpackExc(std::ostream& out, Exc& error);//Функция выводит информацию исключения на экран

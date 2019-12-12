@@ -4,7 +4,7 @@
 	class Question //Родительский класс вопроса без специализации
 	{
 	protected:
-		string question_def{}; //Здесь хранится условие вопроса
+		string question_def{}; //Условие вопроса
 	public:
 		Question() = default;
 		Question(string question) : question_def(question) {};

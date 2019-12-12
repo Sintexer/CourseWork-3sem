@@ -2,8 +2,7 @@
 #include "OutputTable.h"
 
 void MathTest::MakeTable() { //Выводит ответы пользователя на тест в виде таблицы
-	OutputTable a("Ваш ответ|Правильно"); //Создает объект класса OutputTable
-	double correct{};
+	OutputTable a("Номер вопроса|Ваш ответ|Правильно"); //Создает объект класса OutputTable
 	size_t vc{};
 	string temp{};
 	std::list<Q_OneAns>::iterator qstit = questions.begin();
@@ -198,25 +197,24 @@ std::istream& operator>> (std::istream& in, MathTest& obj){ //Ввод теста из пото
 void MathTest::getAnswers(){ //Получает ответы пользователя из файла
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_in(); //Открывает входной поток файлового объекта
-	size_t size{};
-	txt.read(size);
-	while (size) {
-		size_t temp{};
-		txt.read(temp);
+	txt.getFin().peek();
+	if (txt.getFin().eof()) //Если файл пуст
+		return;
+	size_t temp{}; //Временная переменная для чтения ответов
+	while (txt.in()) { //Пока из файла можно что-то прочитать
+		txt.read(temp); //Чтение числа
 		user_answers.push_back(temp); //Заносит ответ пользователя в вектор объектов
-		--size;
+		txt.getFin().get(); //Пропуск символа-разделителя
 	}
 }
 
-void MathTest::putAnswers(){ //Заночит ответы пользователя в файл
+void MathTest::putAnswers(){ //Заносит ответы пользователя в файл
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_out(); //Открытие выходного потока объекта файла
-	txt.write(user_answers.size()); //Записывает количество ответов пользователя в файл
-	int sz = user_answers.size();
 	std::vector<size_t>::iterator it;
 	it = user_answers.begin();
-	while (sz--) {
-		txt.write(*it); //Последовательная запись ответов пользователя в файл
+	while (it!=user_answers.end()) { //Итерация по массиву ответов пользователя
+		txt.write(*it, '|'); //Последовательная запись ответов пользователя в файл
 		++it;
 	}
 }

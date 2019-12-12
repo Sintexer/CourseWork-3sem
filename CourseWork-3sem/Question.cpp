@@ -26,14 +26,14 @@ std::istream& operator>>(std::istream& in, Q_OneAns& obj){ //Ввод  вопроса с одн
 		in.get();
 	getline(in, obj.question_def); //Ввод вопроса
 	in >> obj.correct_ans; //Ввод правильного ответа
-	size_t size; //Число ответов
+	if(in.peek()=='|')
+		in.get();
 	string temp; //Перемнная для ввода
-	in >> size; //Ввод числа вариантов ответов
-	while (size) {
-		getline(in, temp); //Ввод варианта ответа
+	while (in.peek() != '\n') {
+		 //Ввод варианта ответа
+		getline(in, temp, '|');
 		obj.answers.push_back(temp); //Внесение варианта ответа в вектор вариантов ответа
-		--size;
-	}
+	} 
 	return in;
 }
 
@@ -73,27 +73,22 @@ std::istream& operator>>(std::istream& in, Q_Cost& obj)
 	while (in.peek() == '\n')//Пропуск символов новой строки из буфера, которые могут остаться после ввода числа
 		in.get();
 	getline(in, obj.question_def); //Ввод вопроса
-	size_t size; //Число ответов
-	string temp; //Перемнная для ввода
-	in >> size;
 	while (in.peek() == '\n')//Пропуск символов новой строки из буфера, которые могут остаться после ввода числа
 		in.get();
 	obj.answers.clear(); //Очистка вектора вариантов ответа
-	while (size) {
-		while (in.peek() == '\n')//Пропуск символов новой строки из буфера, которые могут остаться после ввода числа
-			in.get();
-		getline(in, temp); //Ввод варианта ответа
+	string temp; //Перемнная для ввода
+	while (in.peek() != '\n') {
+		//Ввод варианта ответа
+		getline(in, temp, '|');
 		obj.answers.push_back(temp); //Внесение варианта ответа в вектор вариантов ответа
-		--size;
 	}
 	int temp2; //Для ввода балла
-	in >> size; //Ввод размер вектора отношений
 	obj.costs.clear(); //Очистка вектора баллов
-	while (size) {
+	 do {
 		in >> temp2; //Ввод балла
 		obj.costs.push_back(temp2); //Внесение балла в вектор
-		--size;
-	}
+		in.get();
+	}while (in.peek() != '\n');
 	return in;
 }
 

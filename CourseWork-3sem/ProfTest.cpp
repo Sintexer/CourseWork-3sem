@@ -145,7 +145,7 @@ void ProfTest::start(){ //Начало теста
 			return;
 		}
 		user_answers.push_back(answer); //Занесение ответа пользователя в вектор ответов
-		sum[relative[user_answers.back()]-1] += dynamic_cast<Q_Cost&>(*it).getCost(answer); //Добавление баллов за ответ на вопрос в соответствующую сумму
+		sum[relative[user_answers.size()-1]-1] += dynamic_cast<Q_Cost&>(*it).getCost(answer); //Добавление баллов за ответ на вопрос в соответствующую сумму
 		++it; //Переход к следующему вопросу
 		++counter; //Инкремент номера вопроса
 	}
@@ -212,17 +212,17 @@ std::istream& operator>>(std::istream& in, ProfTest& obj){ //Считывает тест из п
 	getline(in, obj.test_def); //Чтение описания теста
 	size_t size{}; //Временная переменная
 	int temp{}; //Временная переменная
-	in >> size; //Чтение числа сумм
 	obj.relative.clear(); //Очистка вектора отношений между вопросом и суммой
 	obj.sum.clear(); //Очистка вектора сумм
+	in >> size;
 	obj.sz = size; //Установка числа сумм
-	in >> size; //Чтение числа вопросов
 	obj.questions.clear(); //Очистка вектора вопросов
-	while (size--) {
+	do {
 		in >> temp; //Чтение номера суммы, к которой относится вопрос
-		obj.relative.push_back(temp); //Внесение номера суммы в массив отношений
-	}
-	in >> size; //Чтение числа вопросов 
+		obj.relative.push_back(temp); //Внесение номера суммы в вектор отношений
+		in.get();
+	} while (in.peek() != '\n');
+	size = obj.relative.size();
 	while (size) {
 		Q_Cost temp{};
 		in >> temp; //Чтение вопроса
@@ -248,17 +248,17 @@ void ProfTest::getPersonDef(){ //Ввод описания личности пользователя из файла в 
 
 void ProfTest::putAnswers(){ //Запись ответов пользователя в файл
 	File txt(answers_path); //Инициализация объекта файла
-	txt.open_out(); //Открытие выходного потока файла
-	txt.write(sum.size()); //Запись числа сумм баллов пользователя
-	std::vector<int>::iterator it = sum.begin();
-	while (it != sum.end()) { //Последовательная запись сумм
-		txt.write(*it);
+	txt.open_out(); //Открытие выходного потока объекта файла
+	std::vector<int>::iterator it;
+	it = sum.begin();
+	while (it != sum.end()) { //Итерация по массиву сумм
+		txt.write(*it, '|'); //Последовательная запись сумм в файл
 		++it;
 	}
-	txt.write(user_answers.size()); //Запись числа ответов пользователя
+	txt.write('\n');
 	it = user_answers.begin();
-	while (it != user_answers.end()) {
-		txt.write(*it); //Последовательная запись ответов пользователя в файл
+	while (it != user_answers.end()) { //Итерация по массиву ответов пользователя
+		txt.write(*it, '|'); //Последовательная запись ответов пользователя в файл
 		++it;
 	}
 }
@@ -266,19 +266,19 @@ void ProfTest::putAnswers(){ //Запись ответов пользователя в файл
 void ProfTest::getAnswers(){ //Чтение ответов пользователя из файла
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_in(); //Открытие входного потока файла
-	int size{}, temp{}; //size - число сумм, temp - переменная для чтения чисел
-	txt.read(size); //Чтение числа сумм
-	sum.clear();
-	while (size) {
-		txt.read(temp); //Чтение суммы
-		sum.push_back(temp); //Внесение суммы в вектор сумм
-		--size;
+	size_t temp{}; //temp - ответ пользователя
+	
+	while (txt.getFin().peek() != '\n') { //Чтение сумм баллов пользователя из файла
+		txt.read(temp); //Чтение суммы баллов из файла
+		sum.push_back(temp); //Заносит ответ пользователя в вектор объектов
+		txt.getFin().get(); //Пропуск разделителя
 	}
-	txt.read(size); //Чтение числа ответов
-	while (size) {
-		txt.read(temp); //Чтение ответа пользователя на вопрос
-		user_answers.push_back(temp); //Внесение ответа пользователя в вектор вопросов
-		--size;
+	while (txt.getFin().peek() == '\n') //Пропуск символов новой строки из буфера, которые могут остаться после ввода числа
+		txt.getFin().get();
+	while (txt.in()) {
+		txt.read(temp); //Чтение ответа пользователя из файла
+		user_answers.push_back(temp); //Внесение ответа пользователя в вектор
+		txt.getFin().get();
 	}
 }
 

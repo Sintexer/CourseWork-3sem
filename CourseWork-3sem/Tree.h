@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "MostCommonHeaders.h"
 
 template <typename T>
@@ -61,6 +60,7 @@ protected:
 	// Для ситуации 4 используется метод извлечения ноды extractMostLeft
 
 	void nodeAmount(Node<T>*& node, size_t& size);
+	// Считает число узлов дерева рекурсивно
 
 	void copyTree(Node<T>* tree, Node<T>*& newTree) const;
 	// Копирует все ноды дерева tree в дерево newTree
@@ -72,8 +72,7 @@ public:
 	class iterator {
 		friend class Tree;
 	private:
-		Node<T>* current{};
-		//Указатель на текущую ноду
+		Node<T>* current{};	//Указатель на текущую ноду
 	public:
 		iterator() : current(nullptr) {};
 
@@ -109,25 +108,21 @@ public:
 	Node<T>*& getRoot();
 	virtual bool empty();
 
-	virtual size_t size();
-	// Считает вершины дерева, включая корень
+	virtual size_t size();// Считает вершины дерева, включая корень
 
 	virtual void insert(T val);
 	// Метод вставки значения в дерево
 	// Используется protected method insertItem
 
-	virtual void pop(T val);
-	// Ищет значение val в дереве и производит удаление ноду
+	virtual void pop(T val); // Ищет значение val в дереве и производит удаление ноду
 
 	virtual void show();
 
-	Tree<T>::iterator begin();
-	Tree<T>::iterator end();
-	Tree<T>::iterator find(T obj);
-	// Возвращает итератор на вхождение элемента в дерево, Если в дереве элемента нет, то итератор указывает на nullptr
+	Tree<T>::iterator begin(); //Возвращает итератор на первый элемент дерева
+	Tree<T>::iterator end(); //Возвращает итератор на следующий за последним элемент дерева
+	Tree<T>::iterator find(T obj); // Возвращает итератор на вхождение элемента в дерево, Если в дереве элемента нет, то итератор указывает на nullptr
 
-	void destroyTree(Node<T>*& tree);
-	// Очищает все дерево рекурсивно, освобождает память на указатели нод
+	void destroyTree(Node<T>*& tree); // Очищает все дерево рекурсивно, освобождает память на указатели нод
 };
 
 template<typename T>
@@ -137,10 +132,10 @@ void Tree<T>::popItem(Node<T>*& tree, T val) {
 		return;
 	}
 	else if (val == tree->value)
-	{//Нашли нужную ноду
+	{//Необходимый узел найден
 		deleteNode(tree);
 	}
-	//Ищем ноду дальше
+	//Поиск нужного узла
 	else if (val < tree->value)
 		popItem(tree->left, val);
 	else
@@ -150,43 +145,42 @@ void Tree<T>::popItem(Node<T>*& tree, T val) {
 template<typename T>
 void Tree<T>::insertItem(Node<T>*& tree, T newItem, Node<T>* prnt) {
 	if (!tree)
-	{//Нашли место, куда надо втавить новую ноду
+	{//Если найдено нужное место
 		tree = new Node<T>(newItem, nullptr, nullptr, prnt);
 	}
 	else if (newItem == tree->value)
 	{//Такая нода уже есть
 		return;
 	}
-	//Ищем место для новой ноды
+	//Поиск нужного места по новый узел
 	else if (newItem < tree->value) {
 		prnt = tree;
 		insertItem(tree->left, newItem, prnt);
 	}
 	else {
-		prnt = tree;
+		prnt = tree;	
 		insertItem(tree->right, newItem, prnt);
 	}
 }
 
 template<typename T>
-void Tree<T>::extractMostLeft(Tree::Node<T>*& node, T& val) {
-	//Извлекаем значение самой левой ноды и удаляем ее
+void Tree<T>::extractMostLeft(Tree::Node<T>*& node, T& val) { //Извлекает значение самого левого узла и удаляет его
 	if (!node->left)
 	{
 		val = node->value;
 		Node<T>* del = node;
 		node = node->right;
-		if (node) node->parent = del->parent;
+		if (node) 
+			node->parent = del->parent;
 		delete del;
 	}
-	//Ищем дальше
+	//Поиск самого левого узла
 	else
 		extractMostLeft(node->left, val);
 }
 
 template<typename T>
-void Tree<T>::deleteNode(Node<T>*& node) {
-	//Удаляем ноду
+void Tree<T>::deleteNode(Node<T>*& node) { //Удаляет ноду
 	Node<T>* del;
 	T replaceVal;
 	if (node->left == nullptr && node->right == nullptr)
@@ -219,10 +213,8 @@ void Tree<T>::deleteNode(Node<T>*& node) {
 }
 
 template<typename T>
-void Tree<T>::nodeAmount(Tree::Node<T>*& node, size_t& size) {
-	//Метод подсчитывает количество нод в дереве
-	if (node)
-	{
+void Tree<T>::nodeAmount(Tree::Node<T>*& node, size_t& size) { //Метод подсчитывает количество нод в дереве
+	if (node){
 		++size;
 		nodeAmount(node->left, size);
 		nodeAmount(node->right, size);
@@ -230,8 +222,7 @@ void Tree<T>::nodeAmount(Tree::Node<T>*& node, size_t& size) {
 }
 
 template<typename T>
-void Tree<T>::copyTree(Tree::Node<T>* tree, Tree::Node<T>*& newTree) const {
-	//Метод копирует ноды в новое дерево
+void Tree<T>::copyTree(Tree::Node<T>* tree, Tree::Node<T>*& newTree) const { //Метод копирует ноды в новое дерево
 	if (tree)
 	{
 		newTree = new Node<T>(tree->value, nullptr, nullptr);
@@ -243,8 +234,7 @@ void Tree<T>::copyTree(Tree::Node<T>* tree, Tree::Node<T>*& newTree) const {
 }
 
 template<typename T>
-void Tree<T>::printTree(Tree::Node<T>* current, int level) {
-	//Метод выводит дерево
+void Tree<T>::printTree(Tree::Node<T>* current, int level) { //Метод выводит дерево
 	if (current)
 	{
 		printTree(current->left, level + 1);
@@ -259,14 +249,14 @@ const typename Tree<T>::iterator Tree<T>::iterator::operator++() {
 	if (current->right)
 	//Если есть наследники справа
 	{
-		current = current->right;//Переходим вправо
-		while (current->left)//И идем до конца влево
+		current = current->right;//Переход вправо
+		while (current->left)//Проход до конца влево
 			current = current->left;
 	}
 	else//Если наследников справа нет
 	{
 		temp = current->parent;
-		while (temp && current == temp->right)//Идем вверх
+		while (temp && current == temp->right) //Переход наверх
 		{
 			current = temp;
 			temp = temp->parent;
@@ -289,12 +279,12 @@ const typename Tree<T>::iterator Tree<T>::iterator::operator--() {
 	if (current->left)//Если есть наследники слева
 	{
 		current = current->left;//Шаг влево
-		while (current->right)//Идем до конца вправо
+		while (current->right)//Проход до конца вправо
 			current = current->right;
 	}
 	else//Если наследников слева нет
 	{
-		temp = current->parent;//Идем вверх
+		temp = current->parent;//Проход вверх
 		while (temp && current == temp->left)
 		{
 			current = temp;
@@ -347,8 +337,7 @@ bool Tree<T>::iterator::operator!=(Tree<T>::iterator rht) {
 }
 
 template<typename T>
-T& Tree<T>::iterator::operator*()
-{//Возвращает значение ноды, на которую указывает итератор
+T& Tree<T>::iterator::operator*(){ //Возвращает сслку на узел, на который указывает итератор
 	return current->value;
 }
 
@@ -396,8 +385,7 @@ void Tree<T>::show() {
 }
 
 template<typename T>
-typename Tree<T>::iterator Tree<T>::begin() {
-	//Итератор на начало дерева
+typename Tree<T>::iterator Tree<T>::begin() {//Итератор на начало дерева
 	Tree<T>::iterator it;
 	Node<T>* temp = root;
 	if (!temp)
@@ -409,14 +397,12 @@ typename Tree<T>::iterator Tree<T>::begin() {
 }
 
 template<typename T>
-typename Tree<T>::iterator Tree<T>::end() {
-	//Итератор на конец дерева
+typename Tree<T>::iterator Tree<T>::end() {//Итератор на конец дерева
 	return Tree<T>::iterator();
 }
 
 template<typename T>
-inline typename Tree<T>::iterator Tree<T>::find(T obj)
-{
+inline typename Tree<T>::iterator Tree<T>::find(T obj){
 	Tree<T>::iterator it = begin();
 	while (*it) {
 		if (*it == obj)

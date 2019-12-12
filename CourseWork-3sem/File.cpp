@@ -12,8 +12,15 @@ void File::close() {
 	fout.close();
 }
 
-void File::open_out()
-{
+std::ifstream& File::getFin(){ //Возвращает входной поток
+	return fin;
+}
+
+std::ofstream& File::getFout(){ //Возвращает выходной поток
+	return fout;
+}
+
+void File::open_out(){ //Открывает файл для записи
 	try {
 		fout.open(file_path);
 		if (!fout.is_open())//Если поток не открылся
@@ -27,8 +34,7 @@ void File::open_out()
 	}
 }
 
-void File::open_in()
-{
+void File::open_in(){ //Открывает файл для чтения
 	try {
 		fin.open(file_path);
 		if (!fin.is_open())//Если поток не открылся
@@ -43,7 +49,6 @@ void File::open_in()
 }
 
 
-inline void File::flush() //Выталкивает данные из потока в файл
-{
+inline void File::flush(){ //Выталкивает данные из потока в файл
 	fout.flush(); 
 }

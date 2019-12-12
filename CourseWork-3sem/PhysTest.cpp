@@ -2,7 +2,7 @@
 #include "OutputTable.h"
 
 void PhysTest::MakeTable() { //Выводит ответы пользователя на тест в виде таблицы
-	OutputTable a("Ваш ответ|Правильно"); //Создает объект класса OutputTable
+	OutputTable a("Номер вопроса|Ваш ответ|Правильно"); //Создает объект класса OutputTable
 	double correct{};
 	size_t vc{};
 	string temp{};
@@ -88,7 +88,8 @@ void PhysTest::start(){ //Проводит тест
 	system("pause");
 	system("cls");
 
-	size_t answer{}, counter{ user_answers.size() + 1 }; // answer - ответ пользователя, counter - номер текущего вопроса
+	double answer{}; // answer - ответ пользователя
+	size_t counter{ user_answers.size() + 1 }; //counter - номер текущего вопроса
 	list<Q_OneAns>::iterator it = questions.begin();
 
 	size_t st = user_answers.size();
@@ -191,30 +192,28 @@ std::istream& operator>>(std::istream& in, PhysTest& obj){ //Ввод теста из поток
 }
 
 
-bool PhysTest::putAnswers() { //Заносит ответы пользователя в файл
+void PhysTest::putAnswers() { //Заносит ответы пользователя в файл
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_out(); //Открывает выходной поток файла
-	txt.write(user_answers.size()); //Записывает количество ответов пользователя
-	std::vector<double>::iterator in = user_answers.begin(); 
-	while (in != user_answers.end()) {
-		txt.write(*in); //Последовательная запись ответов пользователя в файл
-		++in;
+	std::vector<double>::iterator it = user_answers.begin();
+	while (it != user_answers.end()) { //Итерация по массиву ответов пользователя
+		txt.write(*it, '|'); //Последовательная запись ответов пользователя в файл
+		++it;
 	}
-	return true;
 }
 
-bool PhysTest::getAnswers(){ //Считывает ответы пользователя из файла
+void PhysTest::getAnswers(){ //Считывает ответы пользователя из файла
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_in(); //Открывает входной поток файла
-	size_t size{}; //Число ответов пользователя
-	txt.read(size); //Считывает число ответов пользователя
-	while (size) {
-		size_t temp{}; //Ответ пользователя
-		txt.read(temp); //Чтение ответа пользователя из файла
-		user_answers.push_back(temp);//Внесение ответа пользователя в вектор
-		--size;
+	txt.getFin().peek();
+	if (txt.getFin().eof())
+		return;
+	double temp{}; //Временная переменная для чтения ответов
+	while (txt.in()) {
+		txt.read(temp);
+		user_answers.push_back(temp); //Заносит ответ пользователя в вектор объектов
+		txt.getFin().get();
 	}
-	return true;
 }
 
 string PhysTest::getPath(){  //Возвращает путь к файлу с личностными тестами
