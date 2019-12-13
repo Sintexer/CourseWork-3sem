@@ -151,7 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CourseWork-3sem.cpp" />
+    <ClCompile Include="CWPsychoTests.cpp" />
     <ClCompile Include="Exc.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="MainMenu.cpp" />

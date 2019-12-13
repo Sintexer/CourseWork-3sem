@@ -7,17 +7,14 @@ private:
 
 	template <typename N>
 	class Node {
-		// Класс узла, в котором хранится значение шаблонного типа
-		// а также два указателя, налево и направо
-		// слева храннится елемент, который меньше элемента в узла
-		// справа наоборот
+																				/*Класс узла, в котором хранится значение шаблонного типа
+																				а также два указателя, налево и направо
+																				слева храннится елемент, который меньше элемента в узла
+																				справа наоборот*/
 	public:
-		N value{}; 
-		//Значение узла
-		Node<N>* left{ nullptr }, * right{ nullptr };
-		//Указатели налево и направо
-		Node<N>* parent{};
-		//Указатель на родителя
+		N value{};																//Значение узла
+		Node<N>* left{ nullptr }, * right{ nullptr };							//Указатели налево и направо
+		Node<N>* parent{};														//Указатель на родителя
 
 		Node() = default;
 		Node(T val, Node<T>* lef, Node<T>* rgt, Node<T>* prnt) :value(val), left(lef), right(rgt), parent(prnt) {}
@@ -26,68 +23,57 @@ private:
 		}
 	};
 
-	Node<T>* root;
-	// В этой переменной хранится корень дерева
+	Node<T>* root;																//В этой переменной хранится корень дерева
 
 protected:
-	// Методы, размещенные в protected части класса,
-	// не предназначены для глаз пользователя
-	// Производят реализацию удаления, поиска, вставки, извлечения
-
 	void popItem(Node<T>*& tree, T val);
-	// Данный метод рекурсивно ищет узел со значением val
-	// При нахождении узла вызывает по отношению к нему метод deleteNode
-	// Тем самым данный метод производит поиск нужного для удаления узла
+																				/*Данный метод рекурсивно ищет узел со значением val
+																				При нахождении узла вызывает по отношению к нему метод deleteNode
+																				Тем самым данный метод производит поиск нужного для удаления узла*/
 
-	void insertItem(Node<T>*& tree, T newItem, Node<T>* prnt);
-	// Данный метод рекурсивно ищет узел со значением newItem
-	// Если такой узел существует, то значение не вставляется
-	// Если же такого узла нет, то метод остановится на узле со значением nullptr
-	// В который можно вставить новое значение, не нарушая структуру дерева поиска
+	void insertItem(Node<T>*& tree, T newItem, Node<T>* prnt);					/*Данный метод рекурсивно ищет узел со значением newItem
+																				Если такой узел существует, то значение не вставляется
+																				Если же такого узла нет, то метод остановится на узле со значением nullptr
+																				В который можно вставить новое значение, не нарушая структуру дерева поиска*/
 
-	void extractMostLeft(Node<T>*& node, T& val);
-	// Копирует значение самого левого от node узла, а затем удаляет этот самый левый узел
-	// Данный метод необходим для удаления узла с двумя наследниками
+	void extractMostLeft(Node<T>*& node, T& val);								/*Копирует значение самого левого от node узла, а затем удаляет этот самый левый узел
+																				Данный метод необходим для удаления узла с двумя наследниками*/
 
-	void deleteNode(Node<T>*& node);
-	// Удалает переданную в метод ноду
-	// Обрабатывает 4 ситуации:
-	//   1) Нода не имеет наследников
-	//   2) Нода имеет только левого наследника
-	//   3) Нода имеет только правого наследника
-	//   4) Нода имеет 2 наследника
-	// Все ситуации, кроме ноера 4 обрабатываются прямо в теле метода
-	// Для ситуации 4 используется метод извлечения ноды extractMostLeft
+	void deleteNode(Node<T>*& node);											/*Удалает переданный в метод Узел
+																				Обрабатывает 4 ситуации:
+																				1) Узел не имеет наследников
+																				2) Узел имеет только левого наследника
+																				3) Узел имеет только правого наследника
+																				4) Узел имеет 2 наследника
+																				Все ситуации, кроме номера 4 обрабатываются прямо в теле метода
+																				Для ситуации 4 используется метод извлечения узла extractMostLeft*/
 
-	void nodeAmount(Node<T>*& node, size_t& size);
-	// Считает число узлов дерева рекурсивно
+	void nodeAmount(Node<T>*& node, size_t& size);								//Считает число узлов дерева рекурсивно
 
-	void copyTree(Node<T>* tree, Node<T>*& newTree) const;
-	// Копирует все ноды дерева tree в дерево newTree
+	void copyTree(Node<T>* tree, Node<T>*& newTree) const;						//Копирует все ноды дерева tree в дерево newTree
 
-	virtual void printTree(Node<T>* current, int level = 0);
-	// Рекурсивный симметриный вывод дерева в консоль (Дерево лежит боком)
+	virtual void printTree(Node<T>* current, int level = 0);					//Рекурсивный симметриный вывод дерева в консоль (Дерево лежит боком)
 
 public:
 	class iterator {
 		friend class Tree;
 	private:
-		Node<T>* current{};	//Указатель на текущую ноду
+		Node<T>* current{};														//Указатель на текущую ноду
 	public:
 		iterator() : current(nullptr) {};
 
-		const Tree<T>::iterator operator++();
-		const Tree<T>::iterator operator++(int);
-		const Tree<T>::iterator operator--();
-		const Tree<T>::iterator operator--(int);
+		const Tree<T>::iterator operator++();									//Переход к следующему элементу дерева, возвращает итератор после изменения
+		const Tree<T>::iterator operator++(int);								//Переход к следующему элементу дерева, возвращает итератор до изменения
+		const Tree<T>::iterator operator--();									//Переход к предыдущему элементу дерева, возвращает итератор после изменения
+		const Tree<T>::iterator operator--(int);								//Переход к предыдущему элементу дерева, возвращает итератор до изменения
 
-		void operator+=(int num);
-		void operator-=(int num);
+		void operator+=(int num);												//Совершает переданное число итераций вперед по дереву
+		void operator-=(int num);												//Совершает переданное число итераций назад по дереву
+			
+		bool operator==(Tree<T>::iterator rht);									//Сравнивает значения узлов, на которые указывают итераторы
+		bool operator!=(Tree<T>::iterator rht);									//Сравнивает значения узлов, на которые указывают итераторы
 
-		bool operator==(Tree<T>::iterator rht);
-		bool operator!=(Tree<T>::iterator rht);
-
-		T& operator*();
+		T& operator*();															//Возвращает ссылку на значение узла, на который указывает итератор
 	};
 
 	//
@@ -105,107 +91,94 @@ public:
 	Tree(T val);
 	virtual ~Tree();
 
-	Node<T>*& getRoot();
-	virtual bool empty();
+	Node<T>*& getRoot();														//Возвращает ссылку на указатель на корень дерева
+	virtual bool empty();														//Возвращает true, если в дереве нет узлов
 
-	virtual size_t size();// Считает вершины дерева, включая корень
+	virtual size_t size();														//Считает вершины дерева, включая корень
 
-	virtual void insert(T val);
-	// Метод вставки значения в дерево
-	// Используется protected method insertItem
+	virtual void insert(T val);													//Метод вставки значения в дерево, использует protected method insertItem
+	virtual void pop(T val);													//Ищет значение val в дереве и производит удаление ноду
 
-	virtual void pop(T val); // Ищет значение val в дереве и производит удаление ноду
+	virtual void show();														//Выводит значения узлов дерева на экран
 
-	virtual void show();
+	Tree<T>::iterator begin();													//Возвращает итератор на первый элемент дерева
+	Tree<T>::iterator end();													//Возвращает итератор на следующий за последним элемент дерева
+	Tree<T>::iterator find(T obj);												//Возвращает итератор на вхождение элемента в дерево, Если в дереве элемента нет, то итератор указывает на nullptr
 
-	Tree<T>::iterator begin(); //Возвращает итератор на первый элемент дерева
-	Tree<T>::iterator end(); //Возвращает итератор на следующий за последним элемент дерева
-	Tree<T>::iterator find(T obj); // Возвращает итератор на вхождение элемента в дерево, Если в дереве элемента нет, то итератор указывает на nullptr
-
-	void destroyTree(Node<T>*& tree); // Очищает все дерево рекурсивно, освобождает память на указатели нод
+	void destroyTree(Node<T>*& tree);											//Очищает все дерево рекурсивно, освобождает память на указатели нод
 };
 
 template<typename T>
 void Tree<T>::popItem(Node<T>*& tree, T val) {
-	if (!tree)
-	{//Такой ноды нет
-		return;
+	if (!tree){																	//Такой ноды нет
+		return;																	//Конец рекурсии
 	}
-	else if (val == tree->value)
-	{//Необходимый узел найден
-		deleteNode(tree);
+	else if (val == tree->value){												//Необходимый узел найден
+		deleteNode(tree);														//Удаление узла
 	}
-	//Поиск нужного узла
+																				//Поиск нужного узла
 	else if (val < tree->value)
-		popItem(tree->left, val);
+		popItem(tree->left, val);												//Поиск в левом поддереве, если искомое значение меньше значения текущего узла
 	else
-		popItem(tree->right, val);
+		popItem(tree->right, val);												//Поиск в правом поддереве
 }
 
 template<typename T>
 void Tree<T>::insertItem(Node<T>*& tree, T newItem, Node<T>* prnt) {
-	if (!tree)
-	{//Если найдено нужное место
-		tree = new Node<T>(newItem, nullptr, nullptr, prnt);
+	if (!tree){																	//Если найдено нужное место
+		tree = new Node<T>(newItem, nullptr, nullptr, prnt);					//Выделение памяти под новый узел
 	}
-	else if (newItem == tree->value)
-	{//Такая нода уже есть
-		return;
+	else if (newItem == tree->value){											//Такая нода уже есть
+		return;																	//Конец рекурсии
 	}
-	//Поиск нужного места по новый узел
-	else if (newItem < tree->value) {
-		prnt = tree;
-		insertItem(tree->left, newItem, prnt);
+																				//Поиск нужного места по новый узел
+	else if (newItem < tree->value) {											//Поиск в левом поддереве, если искомое значение меньше значения текущего узла
+		prnt = tree;															//Сохранение предыдущего узла, чтобы можно было указать родителя нового узла
+		insertItem(tree->left, newItem, prnt);								
 	}
-	else {
-		prnt = tree;	
-		insertItem(tree->right, newItem, prnt);
+	else {																		//Поиск в правом поддереве
+		prnt = tree;															//Сохранение предыдущего узла, чтобы можно было указать родителя нового узла
+		insertItem(tree->right, newItem, prnt);								
 	}
 }
 
 template<typename T>
-void Tree<T>::extractMostLeft(Tree::Node<T>*& node, T& val) { //Извлекает значение самого левого узла и удаляет его
-	if (!node->left)
-	{
-		val = node->value;
-		Node<T>* del = node;
-		node = node->right;
-		if (node) 
-			node->parent = del->parent;
-		delete del;
+void Tree<T>::extractMostLeft(Tree::Node<T>*& node, T& val) {					//Извлекает значение самого левого узла и удаляет его
+	if (!node->left){															//Если самый левый элемент найден
+		val = node->value;														//Сохранение значения самого левого узла
+		Node<T>* del = node;													//Создание аременного указателя для удаления узла
+		node = node->right;														//Если у удаляемого узла есть правый наследник, то он встает на место удаляемого узла
+		if (node)																//Если у удаляемого узла правый наследник был 
+			node->parent = del->parent;											//Родителем правого узла станет родитель удаляемого узла
+		delete del;																//Удаление самого левого узла
 	}
-	//Поиск самого левого узла
-	else
-		extractMostLeft(node->left, val);
+	else																		//Поиск самого левого узла
+		extractMostLeft(node->left, val);	
 }
 
 template<typename T>
-void Tree<T>::deleteNode(Node<T>*& node) { //Удаляет ноду
-	Node<T>* del;
-	T replaceVal;
-	if (node->left == nullptr && node->right == nullptr)
-	{
-		delete node;
+void Tree<T>::deleteNode(Node<T>*& node) {										//Удаляет ноду
+	Node<T>* del;																//Временный указатель для удаления
+	T replaceVal;																//Для узла с двумя наследниками
+	if (node->left == nullptr && node->right == nullptr){						//Если у узла нет наследников
+		delete node;															//Просто удаляем его
 		node = nullptr;
 	}
-	else if (!node->left)
-	{
-		del = node;
-		node = node->right;
-		node->parent = del->parent;
+	else if (!node->left){														//Если у узла есть только правый наследник
+		del = node;																//Указатель на узел, который надо удалить
+		node = node->right;														//Помещение правого наследника на место, откуда будет удален узел
+		node->parent = del->parent;												//Родителем перемещенного узла станет родитель удаленного
 		del->right = nullptr;
-		delete del;
+		delete del;																//Удаление узла
 	}
-	else if (!node->right)
-	{
-		del = node;
-		node = node->left;
-		node->parent = del->parent;
+	else if (!node->right){														//Если у узла есть только левый наследник
+		del = node;																//Указатель на узел, который надо удалить
+		node = node->left;														//Помещение левого наследника на место, откуда будет удален узел
+		node->parent = del->parent;												//Родителем перемещенного узла станет родитель удаленного
 		del->left = nullptr;
-		delete del;
+		delete del;																//Удаление узла
 	}
-	else
-	//Если у ноды два наследника
+	else																		//Если у ноды два наследника
 	{
 		extractMostLeft(node->right, replaceVal);
 		node->value = replaceVal;
@@ -213,7 +186,7 @@ void Tree<T>::deleteNode(Node<T>*& node) { //Удаляет ноду
 }
 
 template<typename T>
-void Tree<T>::nodeAmount(Tree::Node<T>*& node, size_t& size) { //Метод подсчитывает количество нод в дереве
+void Tree<T>::nodeAmount(Tree::Node<T>*& node, size_t& size) {					//Метод подсчитывает количество нод в дереве
 	if (node){
 		++size;
 		nodeAmount(node->left, size);
@@ -222,7 +195,7 @@ void Tree<T>::nodeAmount(Tree::Node<T>*& node, size_t& size) { //Метод по
 }
 
 template<typename T>
-void Tree<T>::copyTree(Tree::Node<T>* tree, Tree::Node<T>*& newTree) const { //Метод копирует ноды в новое дерево
+void Tree<T>::copyTree(Tree::Node<T>* tree, Tree::Node<T>*& newTree) const {	//Метод копирует ноды в новое дерево
 	if (tree)
 	{
 		newTree = new Node<T>(tree->value, nullptr, nullptr);
