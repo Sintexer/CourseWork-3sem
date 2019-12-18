@@ -267,7 +267,9 @@ void ProfTest::getAnswers(){ //Чтение ответов пользователя из файла
 	File txt(answers_path); //Инициализация объекта файла
 	txt.open_in(); //Открытие входного потока файла
 	size_t temp{}; //temp - ответ пользователя
-	
+	txt.getFin().peek();
+	if (txt.getFin().eof())
+		return;
 	while (txt.getFin().peek() != '\n') { //Чтение сумм баллов пользователя из файла
 		txt.read(temp); //Чтение суммы баллов из файла
 		sum.push_back(temp); //Заносит ответ пользователя в вектор объектов

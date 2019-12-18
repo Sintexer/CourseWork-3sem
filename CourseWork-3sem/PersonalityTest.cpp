@@ -19,6 +19,7 @@ void PersTest::start(){ //Начало теста
 			switch (answer){
 			case 1:
 				user_answers.clear(); //Очистка вектора ответов пользователя
+				sum = 0;
 				system("cls");
 				break;
 			case 2:
@@ -54,6 +55,7 @@ void PersTest::start(){ //Начало теста
 				break; //Тест продолжается с вопроса, на котором пользователь прервал тест
 			case 2:
 				user_answers.clear(); //Очистка предыдущих ответов пользователя
+				sum = 0;
 				system("cls");
 				break;
 			case 3:
